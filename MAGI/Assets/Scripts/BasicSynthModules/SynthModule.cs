@@ -3,7 +3,23 @@
 namespace BasicSynthModules
 {
     public abstract class SynthModule: ScriptableObject
-    { 
+    {
+        /// <summary>
+        ///  The sample rate of the audio output, which is the number of samples per second
+        /// </summary>
+        protected int SampleRate;
+        
+        /// <summary>
+        ///  The phase of the audio wave, which represents the number of radians to
+        /// increment the phase by for each sample
+        /// </summary>
+        protected double Phase; 
+
+        private void Awake()
+        {
+            SampleRate = AudioSettings.outputSampleRate;
+        }
+
         /// <summary>
         ///   Generate samples for the given data array, channels, frequency, and amplitude.
         /// </summary>

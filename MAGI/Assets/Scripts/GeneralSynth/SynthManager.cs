@@ -1,5 +1,4 @@
-﻿using System;
-using BasicSynthModules;
+﻿using BasicSynthModules;
 using UnityEngine;
 
 namespace GeneralSynth
@@ -8,6 +7,7 @@ namespace GeneralSynth
     public class SynthManager: MonoBehaviour
     {
         [SerializeField] private SynthModule synthModule;
+        
         [SerializeField, Range(10f, 1000f)] private float frequency = 440;
         [SerializeField, Range(0f, 1f)] private float amplitude = 0.5f;
         

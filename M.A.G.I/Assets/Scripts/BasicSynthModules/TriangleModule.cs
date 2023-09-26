@@ -15,7 +15,7 @@ namespace BasicSynthModules
             {
                 // triangle wave formula, which is y = 2 * (abs(2 * (x - floor(x + 0.5))) - 1)
                 var value = (2 * Mathf.Abs((float) (2 * (Phase - Mathf.Floor((float) (Phase + 0.5f))))) - 1) * amplitude;
-
+                
                 Phase = (Phase + phaseIncrement) % 1;
 
                 for (var channel = 0; channel < channels; channel++)

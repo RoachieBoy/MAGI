@@ -139,7 +139,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GeneralSynth.Synth, Assembly-CSharp
-        m_MethodName: set_ActiveSynth
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

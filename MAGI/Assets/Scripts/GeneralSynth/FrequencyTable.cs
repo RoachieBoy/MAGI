@@ -12,7 +12,8 @@ namespace GeneralSynth
         private const float TwelfthRootOfTwo = 1.059463094359f;
         
         private List<float> _frequencies;
-
+        
+        [Header("Keyboard Settings")]
         [SerializeField] private int numKeys = 88;
         [SerializeField] private float baseFrequency = 440.0f;
         [SerializeField] private int baseKeyNumber = 49;
@@ -52,6 +53,7 @@ namespace GeneralSynth
 
         private void OnValidate()
         {
+            // update the frequencies when the inspector values change
             _frequencies = GetAllPianoKeyFrequencies();
         }
 

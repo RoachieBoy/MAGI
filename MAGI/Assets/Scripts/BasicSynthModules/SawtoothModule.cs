@@ -7,14 +7,13 @@ namespace BasicSynthModules
     {
         public override void GenerateSamples(float[] data, int channels, float frequency, float amplitude)
         {
-            // Precompute values
+            // Precompute values for performance
             var phaseIncrement = frequency / SampleRate;
             var twoAmplitude = 2 * amplitude;
             var dataLength = data.Length;
             
             for (var sample = 0; sample < dataLength; sample += channels)
             {
-                // Reduced multiplicative operations by precomputing 2*amplitude and using it directly in the formula
                 var value = (Phase - 0.5f) * twoAmplitude;
 
                 Phase = (Phase + phaseIncrement) % 1;

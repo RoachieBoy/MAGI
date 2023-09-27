@@ -709,9 +709,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 0.25
-  frequency: 440
   isPlaying: 1
   frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
+  pianoKeyTable: {fileID: 11400000, guid: c1aa05933a2189f4cb273afda1f42c28, type: 2}
+  inputActionAsset: {fileID: -944628639613478452, guid: 61b5fd1eaa6e7426583a2262797fb635, type: 3}
   activeSynthDebug: {fileID: 0}
 --- !u!82 &1657789300
 AudioSource:

@@ -8,7 +8,7 @@ namespace GeneralSynth
     public class Synth : MonoBehaviour
     {
         private InputActionMap _inputActionMap;
-        private float _frequency = 440f; // TODO: Use key mapped frequencies
+        private float _frequency; 
         
         [Header("Settings")] 
         [SerializeField, Range(0f, 1f)]
@@ -23,10 +23,9 @@ namespace GeneralSynth
         [SerializeField]
         private KeyTable pianoKeyTable;
         
-        // Key table for saving things like octave up octave down etc
         [SerializeField]
-        private KeyTable transformKeyTable;
-            
+        private InputActionAsset inputActionAsset;
+        
         [Header("Debug")] 
         [SerializeField] 
         private SynthModule activeSynthDebug;
@@ -38,6 +37,11 @@ namespace GeneralSynth
         {
             get => activeSynthDebug;
             set => activeSynthDebug = value;
+        }
+        
+        private void Start()
+        {
+            MapKeyToFrequencies();
         }
 
         private void OnAudioFilterRead(float[] data, int channels)
@@ -53,9 +57,35 @@ namespace GeneralSynth
 
         private void MapKeyToFrequencies()
         {
-            // index 10 of key table is the same as frequency index 49 aka 440hz or A4
+            if (frequencyTable == null || pianoKeyTable == null) return;
             
-            // TODO: Programatically map keys to frequencies
+            _inputActionMap = inputActionAsset.FindActionMap("White Keys");
+            
+            // Iterate through the keys in the pianoKeyTable and map input actions to frequencies
+            for (var i = 0; i < pianoKeyTable.Count; i++)
+            {
+                var inputActionName = $"Key {i}";
+                
+                var inputAction = _inputActionMap.FindAction(inputActionName);
+                
+                // If the input exists, then we can map it to a frequency
+                if (inputAction != null)
+                {
+                    var frequency = frequencyTable[i];
+                    
+                    // Map the frequency to the input action
+                    inputAction.performed += context => { _frequency = frequency; };
+                    
+                    // If the key is released, then we set the frequency to 0 again 
+                    inputAction.canceled += context => { _frequency = 0f; };
+                }
+                else
+                {
+                    Debug.Log($"Input action {inputActionName} not found.");
+                }
+            }
+            
+            _inputActionMap.Enable();
         }
     }
 }

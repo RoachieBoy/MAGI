@@ -12,7 +12,7 @@ namespace GeneralSynth
         [Header("Feed me")] 
         [SerializeField] private SynthModule synthModule;
     
-        [Header("Where do I need to regurgitate this?")]
+        [Header("Where do I need to poop this out?")]
         [SerializeField] private SynthModuleUnityEvent synthModuleUnityEvent;
     
         private void Awake()

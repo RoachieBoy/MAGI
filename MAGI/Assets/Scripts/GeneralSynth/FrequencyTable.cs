@@ -21,7 +21,7 @@ namespace GeneralSynth
         /// <summary>
         ///  This is the index of A4 in the standard frequency table
         /// </summary>
-        public float BaseKeyNumber => baseKeyNumber;
+        public int BaseKeyNumber => baseKeyNumber;
 
         /// <summary>
         ///  Calculate the frequency of a given key number 

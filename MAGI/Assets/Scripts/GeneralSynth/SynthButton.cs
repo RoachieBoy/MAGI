@@ -18,12 +18,6 @@ namespace GeneralSynth
         private void Awake()
         {
             _base = GetComponent<Button>();
-
-            // turn off the navigation so that the button doesn't get highlighted when using WASD keys 
-            var baseNavigation = _base.navigation;
-            baseNavigation.mode = Navigation.Mode.None;
-            _base.navigation = baseNavigation;
-        
             _base.onClick.AddListener(() => synthModuleUnityEvent.Invoke(synthModule));
         }
     }

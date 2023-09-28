@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BasicSynthModules
@@ -6,21 +5,30 @@ namespace BasicSynthModules
     [CreateAssetMenu(fileName = "SineModule", menuName = "BasicSynthModules/SineModule")]
     public class SineModule : SynthModule
     {
+        private float _phaseIncrement;
+        private float _smoothedPhase;
+
         public override void GenerateSamples(float[] data, int channels, float frequency, float amplitude)
         {
-            var phaseIncrement = frequency * 2.0 * Mathf.PI / SampleRate;
+            _phaseIncrement = frequency * 2.0f * Mathf.PI / SampleRate;
 
-            // iterate over each sample in the data array
             for (var sample = 0; sample < data.Length; sample += channels)
             {
-                Phase += (float) phaseIncrement;
+                var sampleValue = amplitude * Mathf.Sin(Phase);
 
-                // Calculate the sample value based on the sine of the phase
-                var sampleValue = (float) (amplitude * Math.Sin(Phase));
+                if (channels == 2)
+                {
+                    data[sample + 1] = sampleValue;
+                }
 
-                if (channels == 2) data[sample + 1] = sampleValue;
+                // Update the phase
+                Phase += _phaseIncrement;
 
-                if (Phase > Mathf.PI * 2) Phase -= Mathf.PI * 2;
+                // Ensure the phase stays within [0, 2π)
+                while (Phase >= Mathf.PI * 2)
+                {
+                    Phase -= Mathf.PI * 2;
+                }
             }
         }
     }

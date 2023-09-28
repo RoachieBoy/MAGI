@@ -13,16 +13,12 @@ namespace GeneralSynth
 
         [Header("Settings")] [SerializeField, Range(0f, 1f)]
         private float amplitude = 0.5f;
-
-        [SerializeField] private bool isPlaying = true;
-
         [SerializeField] private FrequencyTable frequencyTable;
-
         [SerializeField] private KeyTable pianoKeyTable;
-
-        [Header("Debug View")] [SerializeField]
-        private SynthModule activeSynthDebug;
-
+        
+        [Header("Debug View")] 
+        [SerializeField] private SynthModule activeSynthDebug;
+        [SerializeField] private bool isPlaying = true;
         [SerializeField] private InputActionMap inputActionMap;
 
         /// <summary>
@@ -34,6 +30,8 @@ namespace GeneralSynth
             set => activeSynthDebug = value;
         }
 
+        #region  Tonal Shifts
+        
         /// <summary>
         /// Shifts the octave up by 12 semitones.
         /// </summary>
@@ -60,6 +58,9 @@ namespace GeneralSynth
             MapKeyToFrequencies();
         }
 
+        #endregion
+
+        
         /// <summary>
         /// Initializes the synthesizer settings and input bindings.
         /// </summary>
@@ -97,6 +98,8 @@ namespace GeneralSynth
             ActiveSynth.GenerateSamples(data, channels, _frequency, amplitude);
         }
 
+        #region NoteMapping
+        
         /// <summary>
         /// Creates the input action map and binds keys to actions.
         /// </summary>
@@ -136,7 +139,7 @@ namespace GeneralSynth
                     _frequency = frequency;
                 };
 
-                // When the key is released, stop playing
+                // When the key is released, stop playing the note
                 action.canceled += OnActionOnCanceled;
             }
         }
@@ -149,5 +152,7 @@ namespace GeneralSynth
         {
             isPlaying = false;
         }
+        
+        #endregion
     }
 }

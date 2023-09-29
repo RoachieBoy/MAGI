@@ -1,6 +1,8 @@
-﻿using BasicSynthModules;
+﻿using System;
+using BasicSynthModules;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace GeneralSynth
 {
@@ -11,10 +13,11 @@ namespace GeneralSynth
         private float _frequency;
         private int _octaveShift;
 
-        [Header("Settings")] [SerializeField, Range(0f, 1f)]
-        private float amplitude = 0.5f;
+        [Header("Settings")] 
+        [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.5f;
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
+        [SerializeField] private Slider volumeSlider;
         
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
@@ -61,11 +64,10 @@ namespace GeneralSynth
         #endregion
 
         
-        /// <summary>
-        /// Initializes the synthesizer settings and input bindings.
-        /// </summary>
         private void Start()
         {
+            volumeSlider.value = amplitude;
+            
             // Get index of base key in frequency table 
             // the -1 is done because the frequency table is 1-indexed
             _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1;
@@ -74,19 +76,19 @@ namespace GeneralSynth
             MapKeyToFrequencies();
         }
 
-        /// <summary>
-        /// Disables the input action map when the component is disabled.
-        /// </summary>
+        private void OnEnable()
+        { 
+            // set volume slider to connect to amplitude and be able to change it
+            volumeSlider.onValueChanged.AddListener(value => amplitude = value);
+        }
+
         private void OnDisable()
         {
             inputActionMap?.Disable();
+            
+            volumeSlider.onValueChanged.RemoveAllListeners();
         }
-
-        /// <summary>
-        /// Generates audio samples using the active synth module.
-        /// </summary>
-        /// <param name="data">The audio sample buffer to fill.</param>
-        /// <param name="channels">The number of audio channels.</param>
+        
         private void OnAudioFilterRead(float[] data, int channels)
         {
             if (!isPlaying)

@@ -17,7 +17,10 @@ namespace Synth_Modules.Oscillator_Modules
             {
                 var sampleValue = amplitude * loudnessModifier * Mathf.Sin(Phase);
 
-                if (channels == 2) data[sample + 1] = sampleValue;
+                for (var channel = 0; channel < channels; channel++)
+                {
+                    data[sample + channel] += sampleValue;
+                }
                 
                 // Update the phase
                 Phase += phaseIncrement;

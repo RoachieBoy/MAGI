@@ -1,8 +1,8 @@
-using BasicSynthModules;
+using Synth_Modules;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GeneralSynth
+namespace General
 {
     [RequireComponent(typeof(Button))]
     public class SynthButton: MonoBehaviour

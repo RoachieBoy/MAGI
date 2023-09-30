@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97583e9a1abb40747918e2a4a8da4849, type: 3}
   m_Name: SineModule
   m_EditorClassIdentifier: 
-  associatedButton: {fileID: 5585365279170817980, guid: b0af90e74b114f54b83b39aee28b6341, type: 3}
+  loudnessModifier: 3

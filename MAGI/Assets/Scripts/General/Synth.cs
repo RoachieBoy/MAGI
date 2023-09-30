@@ -1,10 +1,9 @@
-﻿using System;
-using BasicSynthModules;
+﻿using Synth_Modules;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace GeneralSynth
+namespace General
 {
     [RequireComponent(typeof(AudioSource))]
     public class Synth : MonoBehaviour
@@ -91,12 +90,10 @@ namespace GeneralSynth
         
         private void OnAudioFilterRead(float[] data, int channels)
         {
-            if (!isPlaying)
-                return;
-
-            if (activeSynthDebug == null)
-                return;
-
+            if (!isPlaying) return;
+            
+            if (activeSynthDebug == null) return;
+            
             ActiveSynth.GenerateSamples(data, channels, _frequency, amplitude);
         }
 
@@ -126,7 +123,10 @@ namespace GeneralSynth
         private void MapKeyToFrequencies()
         {
             if (frequencyTable == null || pianoKeyTable == null)
+            {
+                Debug.Log("Frequency table or piano key table is null.");
                 return;
+            }
 
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {

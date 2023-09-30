@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BasicSynthModules
+namespace Synth_Modules.Oscillator_Modules
 {
     [CreateAssetMenu(fileName = "SawtoothModule", menuName = "BasicSynthModules/SawtoothModule")]
     public class SawtoothModule : SynthModule

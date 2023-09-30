@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GeneralSynth
+namespace General
 {
     [CreateAssetMenu(fileName = "FrequencyTable", menuName = "Tables/FrequencyTable", order = 1)]
     public class FrequencyTable : ScriptableObject, IReadOnlyList<float>

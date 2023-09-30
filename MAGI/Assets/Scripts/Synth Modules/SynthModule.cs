@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BasicSynthModules
+namespace Synth_Modules
 {
     public abstract class SynthModule : ScriptableObject
     {

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bacdd115965448e82bac536c73bdbee, type: 3}
   m_Name: TriangleModule
   m_EditorClassIdentifier: 
-  associatedButton: {fileID: 5887049316607623164, guid: 5bc04f511eb3e5649842344329eb4564, type: 3}
+  loudnessModifier: 3

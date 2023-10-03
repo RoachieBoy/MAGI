@@ -995,6 +995,7 @@ GameObject:
   - component: {fileID: 1657789301}
   - component: {fileID: 1657789300}
   - component: {fileID: 1657789299}
+  - component: {fileID: 1657789302}
   m_Layer: 0
   m_Name: Synth
   m_TagString: Untagged
@@ -1018,7 +1019,7 @@ MonoBehaviour:
   frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
   pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
   activeSynthDebug: {fileID: 0}
-  isPlaying: 1
+  isPlaying: 0
   inputActionMap:
     m_Name: Input
     m_Id: 6bac8f67-da70-4533-a01b-3181d4770c81
@@ -1034,7 +1035,7 @@ AudioSource:
   m_GameObject: {fileID: 1657789298}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: ca602845d4f499345a7b805473e8bce2, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1136,6 +1137,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1657789302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657789298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422f83e3582d4117be0b06b28bbb7904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
+  isPlaying:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657789299}
+        m_TargetAssemblyTypeName: Synth_Engine.Synth, Assembly-CSharp
+        m_MethodName: set_IsPlaying
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  keysPressed: 0
+  inputActionMap:
+    m_Name: Input
+    m_Id: 92b59858-86d3-4254-828a-14db0ba83658
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
 --- !u!1 &1681176461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,6 +1812,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SineModuleButton
       objectReference: {fileID: 0}
+    - target: {fileID: 8171113773997102380, guid: 016a412310d05584382770f11346eea1, type: 3}
+      propertyPath: synthModule
+      value: 
+      objectReference: {fileID: 11400000, guid: b3a2cbef13d9f5a43917273cabfdebd2, type: 2}
     - target: {fileID: 8171113773997102380, guid: 016a412310d05584382770f11346eea1, type: 3}
       propertyPath: synthModuleUnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

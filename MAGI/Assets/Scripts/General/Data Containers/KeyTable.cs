@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace General
+namespace General.Data_Containers
 {
     [CreateAssetMenu(fileName = "KeyTable", menuName = "Tables/KeyTable", order = 1)]
     public class KeyTable : ScriptableObject, IReadOnlyList<Key>

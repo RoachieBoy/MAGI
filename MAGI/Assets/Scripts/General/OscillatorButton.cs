@@ -1,11 +1,12 @@
-using Synth_Modules;
+using General.Custom_Event_Types;
+using Synth_Engine.Synth_Modules;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace General
 {
     [RequireComponent(typeof(Button))]
-    public class SynthButton: MonoBehaviour
+    public class OscillatorButton: MonoBehaviour
     {
         private Button _base;
     

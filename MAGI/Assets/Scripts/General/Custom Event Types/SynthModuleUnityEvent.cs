@@ -1,8 +1,8 @@
 using System;
-using Synth_Modules;
+using Synth_Engine.Synth_Modules;
 using UnityEngine.Events;
 
-namespace General
+namespace General.Custom_Event_Types
 {
     [Serializable]
     public class SynthModuleUnityEvent: UnityEvent<SynthModule>

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Synth_Modules.Oscillator_Modules
+namespace Synth_Engine.Synth_Modules.Oscillator_Modules
 {
     [CreateAssetMenu(fileName = "SineModule", menuName = "BasicSynthModules/SineModule")]
     public class SineModule : SynthModule

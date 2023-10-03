@@ -1,9 +1,10 @@
-﻿using Synth_Modules;
+﻿using General.Data_Containers;
+using Synth_Engine.Synth_Modules;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace General
+namespace Synth_Engine
 {
     [RequireComponent(typeof(AudioSource))]
     public class Synth : MonoBehaviour
@@ -13,7 +14,7 @@ namespace General
         private int _octaveShift;
 
         [Header("Settings")] 
-        [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.5f;
+        [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.1f;
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
         [SerializeField] private Slider volumeSlider;
@@ -111,7 +112,7 @@ namespace General
                 var type = inputActionMap.AddAction(key.ToString(), InputActionType.Button);
 
                 // Bind keyboard keys to actions (e.g., A for 'A', B for 'B', etc.)
-                type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold");
+                type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold, Press");
             }
 
             inputActionMap.Enable();

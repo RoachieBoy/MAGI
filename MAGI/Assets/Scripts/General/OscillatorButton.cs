@@ -1,5 +1,5 @@
 using General.Custom_Event_Types;
-using Synth_Engine.Synth_Modules;
+using Synth_Engine.Modules;
 using UnityEngine;
 using UnityEngine.UI;
 

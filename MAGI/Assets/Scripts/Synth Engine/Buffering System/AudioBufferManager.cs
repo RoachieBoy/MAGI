@@ -42,7 +42,7 @@ namespace Synth_Engine.Buffering_System
                     frequencyTable.Count);
         }
 
-        private static void FillPreloadAudioBuffers(
+        public static void FillPreloadAudioBuffers(
             FrequencyTable frequencyTable,
             Func<float, float, float, (float, float)> generator,
             float amplitude
@@ -78,8 +78,8 @@ namespace Synth_Engine.Buffering_System
                 for (var i = 0; i < StereoBufferSize; i++)
                 {
                     // generate the left and right channels using the generators and the current phase
-                    var (left, updatedLeftPhase) = leftGenerator(frequency, phaseLeft, leftAmplitude);
-                    var (right, updatedRightPhase) = rightGenerator(frequency, phaseRight, rightAmplitude);
+                    var (left, updatedLeftPhase) = leftGenerator(frequency, leftAmplitude, phaseLeft);
+                    var (right, updatedRightPhase) = rightGenerator(frequency, rightAmplitude, phaseRight);
 
                     stereoBuffer[i] = new StereoData(left, right);
 

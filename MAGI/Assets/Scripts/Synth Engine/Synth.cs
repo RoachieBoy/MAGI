@@ -1,8 +1,8 @@
 ﻿using General.Data_Containers;
-using Synth_Engine.Synth_Modules;
+using Synth_Engine.Buffering_System;
+using Synth_Engine.Modules;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Synth_Engine
 {
@@ -13,24 +13,50 @@ namespace Synth_Engine
         private float _frequency;
         private int _octaveShift;
 
-        [Header("Settings")] 
+        [Header("How loud am I?")] 
         [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.1f;
+        
+        [Header("Feed me keys & frequencies!")]
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
-        [SerializeField] private Slider volumeSlider;
         
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
-        [SerializeField] private bool isPlaying = true;
+        [SerializeField] private bool isPlaying;
         [SerializeField] private InputActionMap inputActionMap;
 
         /// <summary>
-        /// The active synth module.
+        /// The active synth module
         /// </summary>
         public SynthModule ActiveSynth
         {
             get => activeSynthDebug;
-            set => activeSynthDebug = value;
+            set
+            {
+                activeSynthDebug = value;
+                // fill the audio buffers with the new synth module 
+                AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, value.GenerateSample, Amplitude);
+            }
+        }
+        
+        public bool IsPlaying
+        {
+            get => isPlaying;
+            set => isPlaying = value;
+        }
+
+        /// <summary>
+        ///  The amplitude of the synth aka volume.
+        /// </summary>
+        public float Amplitude
+        {
+            get => amplitude;
+            set
+            {
+                amplitude = value;
+                // fill the audio buffers with the new amplitude value
+                AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, ActiveSynth.GenerateSample, value);
+            }
         }
 
         #region  Tonal Shifts
@@ -41,11 +67,12 @@ namespace Synth_Engine
         public void ShiftOctaveUp()
         {
             // check that index can be moved 
-             
             if (_octaveShift + SemiTones > frequencyTable.Count - pianoKeyTable.Count) return;
             
             // Move base index twelve semitones
             _octaveShift += SemiTones;
+             
+            // remap the keys to the new frequencies
             MapKeyToFrequencies();
         }
 
@@ -57,45 +84,42 @@ namespace Synth_Engine
             // check that index can be moved 
             if (_octaveShift - SemiTones < 0) return;
             
+            // Move base index twelve semitones
             _octaveShift -= SemiTones;
+            
+            // remap the keys to the new frequencies
             MapKeyToFrequencies();
         }
 
         #endregion
-
         
         private void Start()
         {
-            volumeSlider.value = amplitude;
-            
             // Get index of base key in frequency table 
             // the -1 is done because the frequency table is 1-indexed
             _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1;
 
             CreateInputActionMap();
             MapKeyToFrequencies();
-        }
-
-        private void OnEnable()
-        { 
-            // set volume slider to connect to amplitude and be able to change it
-            volumeSlider.onValueChanged.AddListener(value => amplitude = value);
+            
+            AudioBufferManager.InitializePreloadBuffers(frequencyTable);
         }
 
         private void OnDisable()
         {
             inputActionMap?.Disable();
-            
-            volumeSlider.onValueChanged.RemoveAllListeners();
         }
         
         private void OnAudioFilterRead(float[] data, int channels)
         {
-            if (!isPlaying) return;
+            if (!IsPlaying) return;
+
+            if (channels != 2) return; 
             
-            if (activeSynthDebug == null) return;
-            
-            ActiveSynth.GenerateSamples(data, channels, _frequency, amplitude);
+            // Generate samples for the given data array, channels, frequency, and amplitude
+            AudioBufferManager.GetAudioBuffer(data);
+            AudioBufferManager.FillNextAudioBuffer(ActiveSynth.GenerateSample, _frequency, Amplitude);
+            AudioBufferManager.SwitchAudioBuffers();
         }
 
         #region NoteMapping
@@ -112,7 +136,7 @@ namespace Synth_Engine
                 var type = inputActionMap.AddAction(key.ToString(), InputActionType.Button);
 
                 // Bind keyboard keys to actions (e.g., A for 'A', B for 'B', etc.)
-                type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold, Press");
+                type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold");
             }
 
             inputActionMap.Enable();
@@ -123,12 +147,6 @@ namespace Synth_Engine
         /// </summary>
         private void MapKeyToFrequencies()
         {
-            if (frequencyTable == null || pianoKeyTable == null)
-            {
-                Debug.Log("Frequency table or piano key table is null.");
-                return;
-            }
-
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
@@ -136,24 +154,11 @@ namespace Synth_Engine
                 var frequency = frequencyTable[i + _octaveShift];
 
                 // When a key is pressed, set the frequency and start playing
-                action.performed += _ =>
+                action.started += _ =>
                 {
-                    isPlaying = true;
                     _frequency = frequency;
                 };
-
-                // When the key is released, stop playing the note
-                action.canceled += OnActionOnCanceled;
             }
-        }
-
-        /// <summary>
-        /// Stops playing when the input action is canceled (key released).
-        /// </summary>
-        /// <param name="obj">The callback context for the input action.</param>
-        private void OnActionOnCanceled(InputAction.CallbackContext obj)
-        {
-            isPlaying = false;
         }
         
         #endregion

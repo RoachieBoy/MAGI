@@ -145,8 +145,7 @@ namespace Synth_Engine
             foreach (var key in pianoKeyTable)
             {
                 var type = inputActionMap.AddAction(key.ToString(), InputActionType.Button);
-
-                // Bind keyboard keys to actions (e.g., A for 'A', B for 'B', etc.)
+                
                 type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold");
             }
 
@@ -161,14 +160,10 @@ namespace Synth_Engine
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
-
                 var frequency = frequencyTable[i + _octaveShift];
 
                 // When a key is pressed, set the frequency and start playing
-                action.started += _ =>
-                {
-                    _frequency = frequency;
-                };
+                action.started += _ => { _frequency = frequency; };
             }
         }
         

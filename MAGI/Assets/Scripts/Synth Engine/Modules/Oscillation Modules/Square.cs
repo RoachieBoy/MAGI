@@ -6,18 +6,23 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     public class Square : SynthModule
     {
         [SerializeField] private float dutyCycle = 0.5f;
+        
+        private const float TwoPi = 2 * Mathf.PI;
 
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var angularFrequency = 2.0f * Mathf.PI * frequency / SampleRate;
+            // Ensure dutyCycle is within the range [0, 1]
+            dutyCycle = Mathf.Clamp01(dutyCycle);
 
-            var threshold = dutyCycle % 1.0f;
+            // Calculate the waveform value
+            var normalizedPhase = (initialPhase % (TwoPi)) / (TwoPi);
             
-            var waveForm = amplitude * (Mathf.Sin(angularFrequency * initialPhase) > threshold ? 1.0f : -1.0f);
-            
-            var updatedPhase = initialPhase + 1.0f;
-            
-            return (waveForm, updatedPhase);
+            var waveForm = normalizedPhase > dutyCycle ? 1.0f : -1.0f;
+
+            // Update the phase by incrementing it
+            var updatedPhase = initialPhase + AngularFrequency(frequency);
+
+            return (amplitude * waveForm, updatedPhase);
         }
     }
 }

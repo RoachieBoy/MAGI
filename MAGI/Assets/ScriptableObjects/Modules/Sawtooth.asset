@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae26ed026db4636bc60ee86265ccf81, type: 3}
   m_Name: Sawtooth
   m_EditorClassIdentifier: 
+  waveOffset: 0.4

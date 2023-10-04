@@ -29,6 +29,7 @@ namespace Synth_Engine
         [SerializeField] private bool isPlaying;
         [SerializeField] private InputActionMap inputActionMap;
 
+        #region Public Properties
         /// <summary>
         /// The active synth module
         /// </summary>
@@ -37,12 +38,16 @@ namespace Synth_Engine
             get => activeSynthDebug;
             set
             {
-                activeSynthDebug = value;
                 // fill the audio buffers with the new synth module 
                 AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, value.GenerateSample, Amplitude);
+                
+                activeSynthDebug = value;
             }
         }
         
+        /// <summary>
+        ///  Represents the current state that the synth is in (playing or not).
+        /// </summary>
         public bool IsPlaying
         {
             get => isPlaying;
@@ -50,18 +55,21 @@ namespace Synth_Engine
         }
 
         /// <summary>
-        ///  The amplitude of the synth aka volume.
+        ///  The amplitude of the synth aka the volume toggle.
         /// </summary>
         public float Amplitude
         {
             get => amplitude;
             set
             {
-                amplitude = value;
                 // fill the audio buffers with the new amplitude value
                 AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, ActiveSynth.GenerateSample, value);
+                
+                amplitude = value;
             }
         }
+        
+        #endregion
 
         #region  Tonal Shifts
         
@@ -97,6 +105,8 @@ namespace Synth_Engine
 
         #endregion
 
+        #region Unity Event Functions
+        
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
@@ -132,8 +142,10 @@ namespace Synth_Engine
             AudioBufferManager.FillNextAudioBuffer(ActiveSynth.GenerateSample, _frequency, Amplitude);
             AudioBufferManager.SwitchAudioBuffers();
         }
+        
+        #endregion
 
-        #region NoteMapping
+        #region Note Mapping
         
         /// <summary>
         /// Creates the input action map and binds keys to actions.

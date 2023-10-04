@@ -7,10 +7,10 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     {
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var angularFrequency = 2.0f * Mathf.PI * frequency / SampleRate;
+            // Calculate the sine waveform
+            var waveForm = amplitude * Mathf.Sin(AngularFrequency(frequency) * initialPhase);
             
-            var waveForm = amplitude * Mathf.Sin(angularFrequency * initialPhase);
-            
+            // add the next phase to the current phase to get the updated phase
             var updatedPhase = initialPhase + 1.0f;
             
             return (waveForm, updatedPhase);

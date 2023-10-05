@@ -15,17 +15,16 @@ namespace Synth_Engine
         [SerializeField] private int keysPressed;
         [SerializeField] private InputActionMap inputActionMap = new(); 
         
-        // used for debugging 
         private int KeysPressed
         {
             get => keysPressed;
-            set 
+            set
             {
-                if (value < 0) keysPressed = 0;
+                keysPressed = value < 0 ? 0 : value;
                 isPlaying.Invoke(value > 0);
-                keysPressed = value;
             }
         }
+
 
         private void Start()
         {

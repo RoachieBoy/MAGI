@@ -527,7 +527,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.1
+  m_Value: 0.723
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc3182b028a4bbfbba935d0a5ba466e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 0.186
+  amplitude: 0.426
   frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
   pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
   filters:
@@ -1038,7 +1038,7 @@ AudioSource:
   m_GameObject: {fileID: 1657789298}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 6465727356473095785, guid: ca602845d4f499345a7b805473e8bce2, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1301,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 991961028999961479, guid: c8b3a9cb86e2a4a42abaf10a5c8311a2, type: 3}
       propertyPath: synthModule
       value: 
-      objectReference: {fileID: 11400000, guid: 48abd944c78693c4882b951e99e7fe65, type: 2}
+      objectReference: {fileID: 11400000, guid: b890bb741f5ad9649933109a5fe37274, type: 2}
     - target: {fileID: 991961028999961479, guid: c8b3a9cb86e2a4a42abaf10a5c8311a2, type: 3}
       propertyPath: synthModuleUnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

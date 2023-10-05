@@ -5,24 +5,21 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     [CreateAssetMenu(fileName = "SquareWave", menuName = "SynthModules/Oscillation/Square")]
     public class Square : SynthModule
     {
-        [SerializeField] private float dutyCycle = 0.5f;
+        // used to make it softer  
+        [SerializeField, Range(0f, 0.8f)] private float volumeModifier; 
         
-        private const float TwoPi = 2 * Mathf.PI;
-
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            // Ensure dutyCycle is within the range [0, 1]
-            dutyCycle = Mathf.Clamp01(dutyCycle);
-
-            // Calculate the waveform value
-            var normalizedPhase = (initialPhase % (TwoPi)) / (TwoPi);
+            // Calculate the square waveform
+            var waveForm = amplitude * Mathf.Sign(Mathf.Sin(AngularFrequency(frequency) * initialPhase));
             
-            var waveForm = normalizedPhase > dutyCycle ? 1.0f : -1.0f;
-
-            // Update the phase by incrementing it
-            var updatedPhase = initialPhase + AngularFrequency(frequency);
-
-            return (amplitude * waveForm, updatedPhase);
+            // Apply the volume modifier
+            waveForm *= volumeModifier;
+            
+            // add the next phase to the current phase to get the updated phase
+            var updatedPhase = initialPhase + 1.0f;
+            
+            return (waveForm, updatedPhase);
         }
     }
 }

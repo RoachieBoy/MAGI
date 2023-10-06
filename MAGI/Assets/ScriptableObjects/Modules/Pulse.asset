@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa4b930da9ba44bc8803c058f01ec231, type: 3}
-  m_Name: PulseWave
+  m_Name: Pulse
   m_EditorClassIdentifier: 
   dutyCycle: 0.15
   volumeModifier: 0.266

@@ -134,6 +134,8 @@ namespace Synth_Engine
         private void OnAudioFilterRead(float[] data, int channels)
         {
             if (!IsPlaying) return;
+            
+            if(ActiveSynth == null) return;
 
             if (channels != 2) return; 
             

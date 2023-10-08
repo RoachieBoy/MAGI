@@ -20,6 +20,10 @@ namespace Visual_Effects.Audio_Visuals.Effects
             _spriteRenderer.color = _currentColor;
         }
 
+        /// <summary>
+        ///  Coroutine to change the color of the sprite renderer
+        /// </summary>
+        /// <param name="target"> target colour </param>
         private IEnumerator MoveToColour(Color target)
         {
             var timer = 0f;
@@ -35,8 +39,6 @@ namespace Visual_Effects.Audio_Visuals.Effects
                 
                 yield return null;
             }
-
-            ToTheBeat = false;
         }
 
         protected override void OnBeat()
@@ -45,6 +47,7 @@ namespace Visual_Effects.Audio_Visuals.Effects
 
             // Choose a random color from the 'colours' array
             var randomColorIndex = Random.Range(0, colours.Length);
+            
             var newColour = colours[randomColorIndex];
 
             StopCoroutine(nameof(MoveToColour));

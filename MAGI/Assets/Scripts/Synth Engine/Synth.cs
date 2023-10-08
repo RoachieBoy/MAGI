@@ -14,7 +14,6 @@ namespace Synth_Engine
         private const int SemiTones = 12;
         private float _frequency;
         private int _octaveShift;
-        private AudioSource _audioSource;
 
         [Header("How loud am I?")] 
         [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.1f;
@@ -22,10 +21,13 @@ namespace Synth_Engine
         [Header("Feed me keys & frequencies!")]
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
-        [SerializeField] private List<AudioMixerGroup> filters; 
+        
+        [Header("Presets")]
+        [SerializeField] private List<AudioMixerGroup> audioMixerGroups;
         
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
+        [SerializeField] private AudioMixerGroup activeEffectDebug;
         [SerializeField] private bool isPlaying;
         [SerializeField] private InputActionMap inputActionMap;
 
@@ -42,6 +44,18 @@ namespace Synth_Engine
                 AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, value.GenerateSample, Amplitude);
                 
                 activeSynthDebug = value;
+            }
+        }
+
+        public AudioMixerGroup ActiveEffect
+        {
+            get => activeEffectDebug;
+            set
+            {
+                // set the active effect to the new effect and update the audio mixer group of audio source
+                activeEffectDebug = value;
+                
+                GetComponent<AudioSource>().outputAudioMixerGroup = value;
             }
         }
         
@@ -106,16 +120,9 @@ namespace Synth_Engine
         #endregion
 
         #region Unity Event Functions
-        
-        private void Awake()
-        {
-            _audioSource = GetComponent<AudioSource>();
-        }
 
         private void Start()
         {
-            _audioSource.outputAudioMixerGroup = filters[0]; 
-            
             // Get index of base key in frequency table 
             // the -1 is done because the frequency table is 1-indexed
             _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1;

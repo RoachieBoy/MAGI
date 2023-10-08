@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace General
 {
     [RequireComponent(typeof(Button))]
-    public class OscillatorButton: MonoBehaviour
+    public class ActivateModuleButton: MonoBehaviour
     {
         private Button _base;
     

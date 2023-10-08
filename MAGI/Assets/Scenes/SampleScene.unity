@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}
@@ -917,7 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}
@@ -1039,7 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}
@@ -1678,7 +1678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fftWindow: 4
   spectrumSize: 64
-  effectMultiplier: 100
+  effectMultiplier: 135
 --- !u!1 &1681176461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}
@@ -1947,7 +1947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d396e9ba8b0410b82a5f31c91a42784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 10
+  bias: 7.5
   timeStep: 0.1
   duration: 0.25
   minSize: {x: 0.5, y: 0.25, z: 1}

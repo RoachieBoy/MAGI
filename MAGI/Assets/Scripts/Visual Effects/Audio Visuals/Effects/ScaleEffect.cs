@@ -14,10 +14,13 @@ namespace Visual_Effects.Audio_Visuals.Effects
         private void Start()
         {
             _currentScale = minSize;
-            
             transform.localScale = _currentScale;
         }
         
+        /// <summary>
+        ///  Coroutine to change the scale of the sprite renderer
+        /// </summary>
+        /// <param name="newScale"> new target scale for the object </param>
         private IEnumerator ScaleCoroutine(Vector3 newScale)
         {
             var timer = 0f;
@@ -31,8 +34,6 @@ namespace Visual_Effects.Audio_Visuals.Effects
 
                yield return null; 
             }
-            
-            ToTheBeat = false;
             transform.localScale = minSize;
         }
         

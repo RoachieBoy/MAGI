@@ -22,9 +22,6 @@ namespace Synth_Engine
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
         
-        [Header("Presets")]
-        [SerializeField] private List<AudioMixerGroup> audioMixerGroups;
-        
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
         [SerializeField] private AudioMixerGroup activeEffectDebug;
@@ -47,6 +44,9 @@ namespace Synth_Engine
             }
         }
 
+        /// <summary>
+        ///  The active effect that is applied to the synth.
+        /// </summary>
         public AudioMixerGroup ActiveEffect
         {
             get => activeEffectDebug;
@@ -128,7 +128,7 @@ namespace Synth_Engine
             _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1;
 
             CreateInputActionMap();
-            MapKeyToFrequencies();
+            MapKeyToFrequencies(); 
             
             AudioBufferManager.InitializePreloadBuffers(frequencyTable);
         }

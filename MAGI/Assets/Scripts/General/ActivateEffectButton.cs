@@ -5,30 +5,48 @@ using UnityEngine.UI;
 
 namespace General
 {
-    public class ActivateEffectButton: MonoBehaviour
+    public class ActivateEffectButton : MonoBehaviour
     {
         private Button _base;
-        private int _clickCount;
-            
+
+        [Header("What effect?")]
         [SerializeField] private AudioMixerGroup audioMixerGroup;
-        
+
+        [Header("Where do I need to poop this out?")]
         [SerializeField] private AudioMixerGroupUnityEvent audioMixerGroupUnityEvent;
-        
+
+        [Header("Debugging")]
+        [SerializeField] private int clickCountDebug;
+
+        private static ActivateEffectButton _currentlySelectedButton; 
+
         private void Awake()
         {
             _base = GetComponent<Button>();
-            _base.onClick.AddListener(() => audioMixerGroupUnityEvent.Invoke(audioMixerGroup));
-            
-            // when clicked, set the active effect to the audio mixer group
-            _base.onClick.AddListener(() => _clickCount++);
-            
-            // when clicked twice, set the active effect to null
+
             _base.onClick.AddListener(() =>
             {
-                if (_clickCount == 2)
+                // If another button is currently selected, turn off its effect
+                if (_currentlySelectedButton != null && _currentlySelectedButton != this)
                 {
+                    _currentlySelectedButton.clickCountDebug = 0;
+                    _currentlySelectedButton.audioMixerGroupUnityEvent.Invoke(null);
+                }
+
+                // Update the currently selected button
+                _currentlySelectedButton = this;
+
+                // Increment the click count for this button
+                clickCountDebug++;
+
+                // When clicked, set the active effect to the audio mixer group
+                audioMixerGroupUnityEvent.Invoke(audioMixerGroup);
+
+                // Check if clicked twice and reset the click count
+                if (clickCountDebug > 1)
+                {
+                    clickCountDebug = 0;
                     audioMixerGroupUnityEvent.Invoke(null);
-                    _clickCount = 0;
                 }
             });
         }

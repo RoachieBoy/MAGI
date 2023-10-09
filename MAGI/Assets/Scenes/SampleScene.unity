@@ -524,10 +524,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1093572651}
   m_HandleRect: {fileID: 756951469}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.1
+  m_MaxValue: 1.5
   m_WholeNumbers: 0
-  m_Value: 0.723
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -891,7 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c161d726711b4f58bb5753fc5a07685e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixerGroup: {fileID: 2277586769417375545, guid: ca602845d4f499345a7b805473e8bce2, type: 2}
+  audioMixerGroup: {fileID: 8470319750770218104, guid: ca602845d4f499345a7b805473e8bce2, type: 2}
   audioMixerGroupUnityEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1457,11 +1457,16 @@ MonoBehaviour:
   frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
   pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
   activeSynthDebug: {fileID: 0}
-  activeEffectDebug: {fileID: 0}
   isPlaying: 0
   inputActionMap:
     m_Name: Input
     m_Id: 6bac8f67-da70-4533-a01b-3181d4770c81
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  octaveShiftActionMap:
+    m_Name: 
+    m_Id: 
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb6db2bd74c4251848237e6eea4ea45, type: 3}
   m_Name: Square
   m_EditorClassIdentifier: 
-  volumeModifier: 0.244
+  volumeModifier: 0.078

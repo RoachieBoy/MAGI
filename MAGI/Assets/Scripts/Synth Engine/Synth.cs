@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using General;
 using General.Data_Containers;
+using JetBrains.Annotations;
 using Synth_Engine.Buffering_System;
 using Synth_Engine.Modules;
 using UnityEngine;
@@ -16,7 +19,7 @@ namespace Synth_Engine
         private int _octaveShift;
 
         [Header("How loud am I?")] 
-        [SerializeField, Range(0f, 0.5f)] private float amplitude = 0.1f;
+        [SerializeField, Range(0f, 1.5f)] private float amplitude = 0.1f;
         
         [Header("Feed me keys & frequencies!")]
         [SerializeField] private FrequencyTable frequencyTable;
@@ -24,9 +27,10 @@ namespace Synth_Engine
         
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
-        [SerializeField] private AudioMixerGroup activeEffectDebug;
         [SerializeField] private bool isPlaying;
         [SerializeField] private InputActionMap inputActionMap;
+        [SerializeField] private InputActionMap octaveShiftUpActionMap = new();
+        [SerializeField] private InputActionMap octaveShiftDownActionMap= new();
 
         #region Public Properties
         /// <summary>
@@ -49,14 +53,7 @@ namespace Synth_Engine
         /// </summary>
         public AudioMixerGroup ActiveEffect
         {
-            get => activeEffectDebug;
-            set
-            {
-                // set the active effect to the new effect and update the audio mixer group of audio source
-                activeEffectDebug = value;
-                
-                GetComponent<AudioSource>().outputAudioMixerGroup = value;
-            }
+            set => GetComponent<AudioSource>().outputAudioMixerGroup = value;
         }
         
         /// <summary>
@@ -120,7 +117,7 @@ namespace Synth_Engine
         #endregion
 
         #region Unity Event Functions
-
+        
         private void Start()
         {
             // Get index of base key in frequency table 
@@ -130,12 +127,18 @@ namespace Synth_Engine
             CreateInputActionMap();
             MapKeyToFrequencies(); 
             
+            // up and down keys are mapped to the octave shift functions
+            InputActionMapsHelper.CreateInputActionMapWithActionMethod(octaveShiftUpActionMap, ShiftOctaveUp, "upArrow");
+            InputActionMapsHelper.CreateInputActionMapWithActionMethod(octaveShiftDownActionMap, ShiftOctaveDown, "downArrow");
+            
             AudioBufferManager.InitializePreloadBuffers(frequencyTable);
         }
 
         private void OnDisable()
         {
             inputActionMap?.Disable();
+            octaveShiftUpActionMap?.Disable();
+            octaveShiftDownActionMap?.Disable();
         }
         
         private void OnAudioFilterRead(float[] data, int channels)
@@ -164,11 +167,7 @@ namespace Synth_Engine
             inputActionMap = new InputActionMap();
 
             foreach (var key in pianoKeyTable)
-            {
-                var type = inputActionMap.AddAction(key.ToString(), InputActionType.Button);
-                
-                type.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold");
-            }
+                InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString());
 
             inputActionMap.Enable();
         }

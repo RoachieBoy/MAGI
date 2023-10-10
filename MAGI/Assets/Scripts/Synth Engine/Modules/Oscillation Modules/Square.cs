@@ -10,16 +10,13 @@ namespace Synth_Engine.Modules.Oscillation_Modules
         
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            // Calculate the square waveform
-            var waveForm = amplitude * Mathf.Sign(Mathf.Sin(AngularFrequency(frequency) * initialPhase));
+            var phaseIncrement = frequency / SampleRate;
             
-            // Apply the volume modifier
-            waveForm *= volumeModifier;
+            var value = Mathf.Sign(Mathf.Sin(initialPhase * 2.0f * Mathf.PI)) * amplitude * volumeModifier;
             
-            // add the next phase to the current phase to get the updated phase
-            var updatedPhase = initialPhase + 1.0f;
+            var updatedPhase = (initialPhase + phaseIncrement) % 1;
             
-            return (waveForm, updatedPhase);
+            return (value, updatedPhase);
         }
     }
 }

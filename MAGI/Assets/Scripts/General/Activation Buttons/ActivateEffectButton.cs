@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-namespace General
+namespace General.Activation_Buttons
 {
     public class ActivateEffectButton : MonoBehaviour
     {
         private Button _base;
 
-        [Header("What effect?")]
+        [Header("What effect do I activate?")]
         [SerializeField] private AudioMixerGroup audioMixerGroup;
 
         [Header("Where do I need to poop this out?")]
@@ -43,11 +43,10 @@ namespace General
                 audioMixerGroupUnityEvent.Invoke(audioMixerGroup);
 
                 // Check if clicked twice and reset the click count
-                if (clickCountDebug > 1)
-                {
-                    clickCountDebug = 0;
-                    audioMixerGroupUnityEvent.Invoke(null);
-                }
+                if (clickCountDebug <= 1) return;
+                
+                clickCountDebug = 0;
+                audioMixerGroupUnityEvent.Invoke(null);
             });
         }
     }

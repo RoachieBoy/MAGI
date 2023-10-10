@@ -3,7 +3,7 @@ using Synth_Engine.Modules;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace General
+namespace General.Activation_Buttons
 {
     [RequireComponent(typeof(Button))]
     public class ActivateModuleButton: MonoBehaviour

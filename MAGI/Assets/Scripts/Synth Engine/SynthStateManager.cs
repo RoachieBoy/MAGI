@@ -1,4 +1,5 @@
-﻿using General.Custom_Event_Types;
+﻿using General;
+using General.Custom_Event_Types;
 using General.Data_Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +9,7 @@ namespace Synth_Engine
     public class SynthStateManager: MonoBehaviour
     {   
         
+        [Header("General Settings")]
         [SerializeField] private KeyTable pianoKeyTable;
         [SerializeField] private BoolUnityEvent isPlaying;
 
@@ -24,8 +26,7 @@ namespace Synth_Engine
                 isPlaying.Invoke(value > 0);
             }
         }
-
-
+        
         private void Start()
         {
             MapKeys();
@@ -43,9 +44,8 @@ namespace Synth_Engine
         {
             foreach (var key in pianoKeyTable)
             {
-                var action = inputActionMap.AddAction(key.ToString(), InputActionType.Button);
-
-                action.AddBinding("<Keyboard>/" + key.ToString().ToLower(), "Hold");
+                var action = InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap,
+                    key.ToString().ToLower());
                 
                 action.started += _ => { KeysPressed++; };
                 action.canceled += _ => { KeysPressed--; };

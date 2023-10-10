@@ -5,27 +5,21 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     [CreateAssetMenu(fileName = "Sawtooth", menuName = "SynthModules/Oscillation/Sawtooth")]
     public class Sawtooth : SynthModule
     {
-        // The offset of the sawtooth wave which determines the symmetry of the wave
-        [SerializeField] private float waveOffset = 0.5f;
-            
-        private const float TwoPi = 2 * Mathf.PI;
+        private const float WaveOffset = 0.5f;
+        
+        [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
         
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            // wrap the phase between 0 and 2pi
-            var phase = initialPhase % TwoPi; 
-            
-            // Calculate the sawtooth waveform correctly
-            var waveForm = (2 * amplitude / Mathf.PI) * ((phase / TwoPi) - waveOffset);
-            
-            // Ensure the waveform wraps around at 2pi
-            if (phase >= TwoPi)
-                phase -= TwoPi;
-            
-            // Update the phase by incrementing it
-            var updatedPhase = (phase + AngularFrequency(frequency)) % TwoPi;
+            var phaseIncrement = frequency / SampleRate;
 
-            return (waveForm, updatedPhase);
+            amplitude *= volumeModifier;
+
+            var value = (initialPhase + WaveOffset) % 1 * amplitude;
+            
+            var updatedPhase = (initialPhase + phaseIncrement) % 1;
+            
+            return (value, updatedPhase);
         }
     }
 }

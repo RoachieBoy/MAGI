@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using General;
+﻿using General;
 using General.Data_Containers;
-using JetBrains.Annotations;
 using Synth_Engine.Buffering_System;
 using Synth_Engine.Modules;
 using UnityEngine;
@@ -167,8 +164,8 @@ namespace Synth_Engine
             inputActionMap = new InputActionMap();
 
             foreach (var key in pianoKeyTable)
-                InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString());
-
+                InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString().ToLower());
+            
             inputActionMap.Enable();
         }
 

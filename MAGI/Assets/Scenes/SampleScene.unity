@@ -1464,9 +1464,15 @@ MonoBehaviour:
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
-  octaveShiftActionMap:
-    m_Name: 
-    m_Id: 
+  octaveShiftUpActionMap:
+    m_Name: Octave Shift Up
+    m_Id: 99ef54c7-3e2d-4085-84c9-f0a924f7c41a
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  octaveShiftDownActionMap:
+    m_Name: Octave Shift Down
+    m_Id: 5966abd7-bcfc-43c9-b29a-94bd76603be0
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []

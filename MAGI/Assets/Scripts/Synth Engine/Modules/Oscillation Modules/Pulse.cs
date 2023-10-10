@@ -6,23 +6,22 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     public class Pulse : SynthModule
     {
         // Duty cycle, a value between 0 and 1 where 0 means always low, and 1 means always high.
-        public float dutyCycle = 0.25f;
-
-        // used to make it softer  
-        [SerializeField, Range(0f, 0.8f)] private float volumeModifier; 
+        [SerializeField] private float dutyCycle = 0.25f;
+        
+        [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
 
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            // Calculate the pulse waveform with the specified duty cycle
-            var waveForm = Mathf.Sin(AngularFrequency(frequency) * initialPhase) < (1.0f - dutyCycle) ? -amplitude : amplitude;
+            var phaseIncrement = frequency / SampleRate;
             
-            // Make it softer
-            waveForm *= volumeModifier;
+            // add volume modification to ensure that the volume is not too loud
+            amplitude *= volumeModifier;
 
-            // Increment the phase
-            var updatedPhase = initialPhase + 1.0f;
+            var value = initialPhase < dutyCycle ? amplitude : -amplitude;
 
-            return (waveForm, updatedPhase);
+            var updatedPhase = (initialPhase + phaseIncrement) % 1;
+
+            return (value, updatedPhase);
         }
     }
 }

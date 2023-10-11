@@ -26,7 +26,7 @@ namespace Synth_Engine.Buffering_System
         private static readonly StereoData[] StereoAudioBuffer = new StereoData[StereoBufferSize];
 
         // First is sample storage, second is phase storage
-        private static ConcurrentDictionary<float, (StereoData[], StereoData)> _preloadAudioBuffers;
+        private static ConcurrentDictionary<float, AudioBuffer> _preloadAudioBuffers;
 
         #endregion
 
@@ -38,9 +38,7 @@ namespace Synth_Engine.Buffering_System
         /// <param name="frequencyTable"> the frequency table scriptable object to use </param>
         public static void InitializePreloadBuffers(FrequencyTable frequencyTable)
         {
-            _preloadAudioBuffers =
-                new ConcurrentDictionary<float, (StereoData[], StereoData)>(1,
-                    frequencyTable.Count);
+            _preloadAudioBuffers = new ConcurrentDictionary<float, AudioBuffer>(1, frequencyTable.Count);
         }
 
         public static void FillPreloadAudioBuffers(
@@ -89,7 +87,7 @@ namespace Synth_Engine.Buffering_System
                 }
 
                 // add the buffer to the dictionary with the associated frequency and phase data
-                _preloadAudioBuffers.TryAdd(frequency, (stereoBuffer, new StereoData(phaseLeft, phaseRight)));
+                _preloadAudioBuffers.TryAdd(frequency, new AudioBuffer(stereoBuffer, phaseLeft, phaseRight));
             });
         }
 
@@ -100,7 +98,7 @@ namespace Synth_Engine.Buffering_System
         /// <param name="frequency"></param>
         public static void SetPreloadAudioBuffer(float frequency)
         {
-            _preloadAudioBuffers[frequency].Item1.CopyToFloatArray(CurrentAudioBuffer);
+            _preloadAudioBuffers[frequency].AudioStereoBuffer.CopyToFloatArray(CurrentAudioBuffer);
         }
 
         #endregion
@@ -141,7 +139,7 @@ namespace Synth_Engine.Buffering_System
         {
             var bufferData = _preloadAudioBuffers[frequency];
             
-            var phase = bufferData.Item2;
+            var phase = bufferData.FinalPhase;
 
             for (var i = 0; i < StereoBufferSize; i++)
             {
@@ -154,7 +152,7 @@ namespace Synth_Engine.Buffering_System
             }
 
             // update the phase data in the dictionary for the given frequency
-            _preloadAudioBuffers[frequency] = (bufferData.Item1, phase);
+            _preloadAudioBuffers[frequency] = new AudioBuffer(bufferData.AudioStereoBuffer, phase);
         
             // copy the stereo audio buffer to the next audio buffer
             StereoAudioBuffer.CopyToFloatArray(NextAudioBuffer);

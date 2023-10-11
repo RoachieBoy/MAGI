@@ -5,49 +5,56 @@ using UnityEngine.UI;
 
 namespace General.Activation_Buttons
 {
+    [RequireComponent(typeof(Button))]
     public class ActivateEffectButton : MonoBehaviour
     {
-        private Button _base;
+        private Button _button;
+        private Image _image;
+        private int _clickCount;
+
+        private static ActivateEffectButton _currentlySelectedButton;
 
         [Header("What effect do I activate?")]
         [SerializeField] private AudioMixerGroup audioMixerGroup;
 
-        [Header("Where do I need to poop this out?")]
+        [Header("Where do I need to apply this effect?")]
         [SerializeField] private AudioMixerGroupUnityEvent audioMixerGroupUnityEvent;
 
-        [Header("Debugging")]
-        [SerializeField] private int clickCountDebug;
-
-        private static ActivateEffectButton _currentlySelectedButton; 
+        [Header("What color do I need to be?")]
+        [SerializeField] private Color colorSelected;
+        [SerializeField] private Color colorUnselected;
 
         private void Awake()
         {
-            _base = GetComponent<Button>();
+            _button = GetComponent<Button>();
+            _image = GetComponent<Image>();
 
-            _base.onClick.AddListener(() =>
-            {
-                // If another button is currently selected, turn off its effect
-                if (_currentlySelectedButton != null && _currentlySelectedButton != this)
-                {
-                    _currentlySelectedButton.clickCountDebug = 0;
-                    _currentlySelectedButton.audioMixerGroupUnityEvent.Invoke(null);
-                }
+            _button.onClick.AddListener(OnButtonClick);
+        }
 
-                // Update the currently selected button
-                _currentlySelectedButton = this;
+        private void OnButtonClick()
+        {
+            if (_currentlySelectedButton != null && _currentlySelectedButton != this)
+                _currentlySelectedButton.Disable();
+            
+            Enable();
+            
+            if (_clickCount > 1) Disable();
+        }
 
-                // Increment the click count for this button
-                clickCountDebug++;
+        private void Enable()
+        {
+            _image.color = colorSelected;
+            _currentlySelectedButton = this;
+            _clickCount++;
+            audioMixerGroupUnityEvent.Invoke(audioMixerGroup);
+        }
 
-                // When clicked, set the active effect to the audio mixer group
-                audioMixerGroupUnityEvent.Invoke(audioMixerGroup);
-
-                // Check if clicked twice and reset the click count
-                if (clickCountDebug <= 1) return;
-                
-                clickCountDebug = 0;
-                audioMixerGroupUnityEvent.Invoke(null);
-            });
+        private void Disable()
+        {
+            _image.color = colorUnselected;
+            _clickCount = 0;
+            audioMixerGroupUnityEvent.Invoke(null);
         }
     }
 }

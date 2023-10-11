@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ae26ed026db4636bc60ee86265ccf81, type: 3}
-  m_Name: Sawtooth
+  m_Script: {fileID: 11500000, guid: 6b39898448a64fc1b98b62dc2778d03a, type: 3}
+  m_Name: Envelope
   m_EditorClassIdentifier: 
-  volumeModifier: 0.202
+  attackTime: 0.1
+  decayTime: 0.1
+  sustainLevel: 0.5
+  releaseTime: 3.82

@@ -6,20 +6,51 @@ using UnityEngine.UI;
 namespace General.Activation_Buttons
 {
     [RequireComponent(typeof(Button))]
-    public class ActivateModuleButton: MonoBehaviour
+    public class ActivateModuleButton : MonoBehaviour
     {
-        private Button _base;
-    
-        [Header("Feed me")] 
+        private Button _button;
+        private Image _image;
+        private SynthModule _synthModule;
+        private static ActivateModuleButton _current;
+
+        [Header("Feed me")]
         [SerializeField] private SynthModule synthModule;
-    
-        [Header("Where do I need to poop this out?")]
+
+        [Header("Where do I need to apply this effect?")]
         [SerializeField] private SynthModuleUnityEvent synthModuleUnityEvent;
-    
+
+        [Header("What color do I need to be?")]
+        [SerializeField] private Color colorSelected;
+        [SerializeField] private Color colorUnselected;
+
         private void Awake()
         {
-            _base = GetComponent<Button>();
-            _base.onClick.AddListener(() => synthModuleUnityEvent.Invoke(synthModule));
+            _button = GetComponent<Button>();
+            _image = GetComponent<Image>();
+
+            _button.onClick.AddListener(OnButtonClick);
+        }
+
+        private void OnButtonClick()
+        {
+            if (_current != null && _current != this)
+            {
+                _current.Deselect();
+            }
+
+            Select();
+        }
+
+        private void Select()
+        {
+            _current = this;
+            synthModuleUnityEvent.Invoke(synthModule);
+            _image.color = colorSelected;
+        }
+
+        private void Deselect()
+        {
+            _image.color = colorUnselected;
         }
     }
 }

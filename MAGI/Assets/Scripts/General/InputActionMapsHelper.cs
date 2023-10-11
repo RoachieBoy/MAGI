@@ -14,7 +14,7 @@ namespace General
         /// <param name="key"> the name of the key </param>
         public static void CreateInputActionMapWithActionMethod([NotNull] InputActionMap map, Action action, string key)
         {
-            if (map == null) throw new ArgumentNullException(nameof(map));
+            if (map == null) throw new ArgumentNullException(nameof(map), "InputActionMap cannot be null.");
             
             // add the given action to the action map
             var type = map.AddAction(map.ToString(), InputActionType.Button);
@@ -22,7 +22,7 @@ namespace General
             // bind the action to the given key
             type.AddBinding("<Keyboard>/" + key, "Hold");
             
-            // enable the action map
+            // enable the action map before action can be invoked
             map.Enable();
             
             // use the callback and invoke the action when the key is pressed

@@ -7,13 +7,13 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     {
         public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var phaseIncrement = frequency / SampleRate;
+            var phaseIncrement = (frequency / SampleRate);
             
-            var value = 2.0f * Mathf.Abs(initialPhase - Mathf.Floor(initialPhase + 0.5f)) * amplitude - amplitude;
+            initialPhase = (initialPhase + phaseIncrement) % 1;
+
+            var value = (Mathf.PingPong(initialPhase * 2.0f, 1.0f) - 0.5f) * 2.0f * amplitude;
             
-            var updatedPhase = (initialPhase + phaseIncrement) % 1;
-            
-            return (value, updatedPhase);
+            return (value, initialPhase);
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace Synth_Engine.Modules
 {
     [CreateAssetMenu (fileName = "Envelope", menuName = "SynthModules/Envelope")]
-    public class Envelope: ScriptableObject
+    public class ADSRModule: ScriptableObject
     {
         public float attackTime = 0.1f;
         public float decayTime = 0.1f;

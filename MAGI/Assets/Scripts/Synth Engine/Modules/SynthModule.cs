@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using UnityEngine;
 
 namespace Synth_Engine.Modules
 {
@@ -20,7 +21,7 @@ namespace Synth_Engine.Modules
         /// <param name="frequency"> the frequency of the oscillation wave, which determines the note</param>
         /// <param name="amplitude"> the amplitude of the oscillation wave, which determines the volume of the note</param>
         /// <param name="initialPhase"> what phase should the wave start in </param>
-        public abstract (float value, float updatedPhase) GenerateSample(float frequency, float amplitude,
+        public abstract SampleState GenerateSample(float frequency, float amplitude,
             float initialPhase);
     }
 }

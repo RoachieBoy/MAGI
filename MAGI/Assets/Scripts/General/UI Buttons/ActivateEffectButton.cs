@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-namespace General.Activation_Buttons
+namespace General.UI_Buttons
 {
     [RequireComponent(typeof(Button))]
     public class ActivateEffectButton : MonoBehaviour

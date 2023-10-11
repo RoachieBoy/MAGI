@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using UnityEngine;
 
 namespace Synth_Engine.Modules.Oscillation_Modules
 {
@@ -10,7 +11,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
         
         [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
 
-        public override (float value, float updatedPhase) GenerateSample(float frequency, float amplitude, float initialPhase)
+        public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
             var phaseIncrement = frequency / SampleRate;
             
@@ -21,7 +22,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
 
             var updatedPhase = (initialPhase + phaseIncrement) % 1;
 
-            return (value, updatedPhase);
+            return new SampleState(value, updatedPhase);
         }
     }
 }

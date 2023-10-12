@@ -66,6 +66,16 @@ namespace Synth_Engine
             set => isPlaying = value;
         }
 
+        private float Frequency
+        {
+            get => _frequency;
+            set
+            {
+                _frequency = value;
+                AudioBufferManager.SetPreloadAudioBuffer(value);
+            }
+        }
+
         /// <summary>
         ///  The amplitude of the synth aka the volume toggle.
         /// </summary>
@@ -96,7 +106,7 @@ namespace Synth_Engine
             _octaveShift += SemiTones;
             
             // update immediately to the new frequency
-            _frequency = frequencyTable[_octaveShift];
+            Frequency = frequencyTable[_octaveShift];
              
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
@@ -114,7 +124,7 @@ namespace Synth_Engine
             _octaveShift -= SemiTones;
             
             // update immediately to the new frequency
-            _frequency = frequencyTable[_octaveShift];
+            Frequency = frequencyTable[_octaveShift];
             
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
@@ -156,7 +166,7 @@ namespace Synth_Engine
             
             // Generate samples for the given data array, channels, frequency, and amplitude
             AudioBufferManager.GetAudioBuffer(data);
-            AudioBufferManager.FillNextAudioBuffer(ActiveSynth.GenerateSample, _frequency, Amplitude);
+            AudioBufferManager.FillNextAudioBuffer(ActiveSynth.GenerateSample, Frequency);
             AudioBufferManager.SwitchAudioBuffers();
         }
         
@@ -186,7 +196,7 @@ namespace Synth_Engine
         }
 
         /// <summary>
-        /// Maps piano keys to corresponding frequencies and input actions.
+        /// Maps piano keys to corresponding frequencies and input actions
         /// </summary>
         private void MapKeyToFrequencies()
         {
@@ -198,7 +208,7 @@ namespace Synth_Engine
                 var frequency = frequencyTable[_octaveShift + i];
 
                 // When a key is pressed, set the frequency 
-                action.started += _ => { _frequency = frequency; };
+                action.started += _ => { Frequency = frequency; };
             }
         }
         

@@ -5,15 +5,15 @@ namespace Visual_Effects.Audio_Visuals.Effects
 {
     public class ScaleEffect: AudioEffect
     {
-        [Header("Scale Settings")]
-        [SerializeField] private Vector3 minSize = Vector3.one;
-        [SerializeField] private Vector3 maxSize = Vector3.one * 2;
+        [Header("Scale Settings")] 
+        [SerializeField] private ScaleChangerSettings scaleSettings; 
         
         private Vector3 _currentScale;
         
         private void Start()
         {
-            _currentScale = minSize;
+            _currentScale = scaleSettings.MinSize;
+            
             transform.localScale = _currentScale;
         }
         
@@ -27,14 +27,15 @@ namespace Visual_Effects.Audio_Visuals.Effects
             
             while (_currentScale != newScale)
             {
-               _currentScale = Vector3.Lerp(_currentScale, newScale, timer / duration);
+               _currentScale = Vector3.Lerp(_currentScale, newScale, timer / settings.Duration);
+               
                timer += Time.deltaTime;
 
                transform.localScale = _currentScale;
 
                yield return null; 
             }
-            transform.localScale = minSize;
+            transform.localScale = scaleSettings.MinSize;
         }
         
         
@@ -42,10 +43,10 @@ namespace Visual_Effects.Audio_Visuals.Effects
         {
             base.OnBeat();
             
-            var newScale = new Vector3(Random.Range(minSize.x, maxSize.x), Random.Range(minSize.y, maxSize.y));
+            var newScale = new Vector3(Random.Range(scaleSettings.MinSize.x, scaleSettings.MaxSize.x), 
+                Random.Range(scaleSettings.MinSize.y, scaleSettings.MaxSize.y));
 
             StopCoroutine(nameof(ScaleCoroutine));
-            
             StartCoroutine(nameof(ScaleCoroutine), newScale);
         }
     }

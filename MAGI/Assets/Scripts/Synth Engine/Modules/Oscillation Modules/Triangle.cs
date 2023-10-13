@@ -8,11 +8,13 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     {
         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var phaseIncrement = (frequency / SampleRate);
+            var phaseIncrement = frequency / SampleRate;
+
+            var value = Mathf.PingPong(initialPhase * 2.0f, 1.0f); 
+            
+            value *= amplitude;
             
             initialPhase = (initialPhase + phaseIncrement) % 1;
-
-            var value = (Mathf.PingPong(initialPhase * 2.0f, 1.0f) - 0.5f) * 2.0f * amplitude;
             
             return new SampleState(value, initialPhase);
         }

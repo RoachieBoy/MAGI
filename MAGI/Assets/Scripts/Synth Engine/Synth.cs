@@ -12,29 +12,33 @@ namespace Synth_Engine
     public class Synth : MonoBehaviour
     {
         private const int SemiTones = 12;
-        
+
         private float _frequency;
         private int _octaveShift;
-        
+
         private readonly InputActionMap _octaveShiftUpActionMap = new();
         private readonly InputActionMap _octaveShiftDownActionMap = new();
 
         [Header("How loud am I?")] 
         [SerializeField, Range(0f, 1f)] private float amplitude = 0.5f;
-        
-        [Header("Default Synth")]
+
+        [Header("Default Synth")] 
         [SerializeField] private SynthModule defaultSynth;
-        
-        [Header("Feed me keys & frequencies!")]
+
+        [Header("Feed me keys & frequencies!")] 
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
-        
+
+        [Header("ADSR Values")] 
+        [SerializeField] private float attackTime = 0.9f;
+
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
         [SerializeField] private bool isPlaying;
         [SerializeField] private InputActionMap inputActionMap = new();
 
         #region Public Properties
+
         /// <summary>
         /// The active synth module
         /// </summary>
@@ -44,7 +48,13 @@ namespace Synth_Engine
             set
             {
                 // fill the audio buffers with the new synth module 
-                AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, value.GenerateSample, Amplitude);
+                AudioBufferManager.FillPreloadAudioBuffers(
+                    frequencyTable,
+                    attackTime,
+                    value.GenerateSample,
+                    Amplitude
+                );
+
                 activeSynthDebug = value;
             }
         }
@@ -56,7 +66,7 @@ namespace Synth_Engine
         {
             set => GetComponent<AudioSource>().outputAudioMixerGroup = value;
         }
-        
+
         /// <summary>
         ///  Represents the current state that the synth is in (playing or not)
         /// </summary>
@@ -85,15 +95,21 @@ namespace Synth_Engine
             set
             {
                 // fill the audio buffers with the new amplitude value
-                AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, ActiveSynth.GenerateSample, value);
+                AudioBufferManager.FillPreloadAudioBuffers(
+                    frequencyTable,
+                    attackTime,
+                    ActiveSynth.GenerateSample,
+                    value
+                );
+
                 amplitude = value;
             }
         }
-        
+
         #endregion
 
-        #region  Tonal Shifts
-        
+        #region Tonal Shifts
+
         /// <summary>
         /// Shifts the octave up by 12 semitones.
         /// </summary>
@@ -101,13 +117,13 @@ namespace Synth_Engine
         {
             // check that index can be moved 
             if (_octaveShift + SemiTones > frequencyTable.Count - pianoKeyTable.Count) return;
-            
+
             // Move base index twelve semitones
             _octaveShift += SemiTones;
-            
+
             // update immediately to the new frequency
             Frequency = frequencyTable[_octaveShift];
-             
+
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
         }
@@ -119,13 +135,13 @@ namespace Synth_Engine
         {
             // check that index can be moved 
             if (_octaveShift - SemiTones < 0) return;
-            
+
             // Move base index twelve semitones
             _octaveShift -= SemiTones;
-            
+
             // update immediately to the new frequency
             Frequency = frequencyTable[_octaveShift];
-            
+
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
         }
@@ -133,7 +149,7 @@ namespace Synth_Engine
         #endregion
 
         #region Unity Event Functions
-        
+
         private void Start()
         {
             // Get index of base key in frequency table the -1 is done because the frequency table is 1-indexed
@@ -142,14 +158,11 @@ namespace Synth_Engine
             CreateInputActionMap();
             MapKeyToFrequencies();
             MapOctaveKeys();
-            
+
             AudioBufferManager.InitializePreloadBuffers(frequencyTable);
-            
+
             // Set the default synth
             ActiveSynth = defaultSynth;
-            
-            // Initialize buffers with the default synth
-            AudioBufferManager.FillPreloadAudioBuffers(frequencyTable, ActiveSynth.GenerateSample, Amplitude);
         }
 
         private void OnDisable()
@@ -158,18 +171,21 @@ namespace Synth_Engine
             _octaveShiftUpActionMap?.Disable();
             _octaveShiftDownActionMap?.Disable();
         }
-        
+
         private void OnAudioFilterRead(float[] data, int channels)
         {
-            if (!IsPlaying) return;
-            if (channels != 2) return; 
-            
+            if (!IsPlaying)
+                return;
+
+            if (channels != 2)
+                return;
+
             // Generate samples for the given data array, channels, frequency, and amplitude
             AudioBufferManager.GetAudioBuffer(data);
-            AudioBufferManager.FillNextAudioBuffer(ActiveSynth.GenerateSample, Frequency);
+            AudioBufferManager.FillNextAudioBuffer(Frequency, ActiveSynth.GenerateSample);
             AudioBufferManager.SwitchAudioBuffers();
         }
-        
+
         #endregion
 
         #region Key & Note Mapping
@@ -180,10 +196,19 @@ namespace Synth_Engine
         private void MapOctaveKeys()
         {
             // up and down keys are mapped to the octave shift functions
-            InputActionMapsHelper.CreateInputActionMapWithActionMethod(_octaveShiftUpActionMap, ShiftOctaveUp, "upArrow");
-            InputActionMapsHelper.CreateInputActionMapWithActionMethod(_octaveShiftDownActionMap, ShiftOctaveDown, "downArrow");
+            InputActionMapsHelper.CreateInputActionMapWithActionMethod(
+                _octaveShiftUpActionMap, 
+                ShiftOctaveUp,
+                "upArrow"
+                );
+            
+            InputActionMapsHelper.CreateInputActionMapWithActionMethod(
+                _octaveShiftDownActionMap, 
+                ShiftOctaveDown,
+                "downArrow"
+                );
         }
-        
+
         /// <summary>
         /// Creates the input action map and binds keys to actions.
         /// </summary>
@@ -191,7 +216,7 @@ namespace Synth_Engine
         {
             foreach (var key in pianoKeyTable)
                 InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString().ToLower());
-            
+
             inputActionMap.Enable();
         }
 
@@ -203,7 +228,7 @@ namespace Synth_Engine
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
-                
+
                 // Get the frequency of the key
                 var frequency = frequencyTable[_octaveShift + i];
 
@@ -211,7 +236,7 @@ namespace Synth_Engine
                 action.started += _ => { Frequency = frequency; };
             }
         }
-        
+
         #endregion
     }
 }

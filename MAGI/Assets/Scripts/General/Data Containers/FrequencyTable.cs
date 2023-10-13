@@ -56,7 +56,7 @@ namespace General.Data_Containers
             // update the frequencies when the inspector values change
             _frequencies = GetAllPianoKeyFrequencies();
         }
-
+        
         public IEnumerator<float> GetEnumerator()
         {
             return _frequencies.GetEnumerator();

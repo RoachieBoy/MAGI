@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using General.Data_Containers;
 using Synth_Engine.Buffering_System.Buffer_Data;
-using UnityEngine;
+using Synth_Engine.Modules;
 
 namespace Synth_Engine.Buffering_System
 {
@@ -26,31 +26,35 @@ namespace Synth_Engine.Buffering_System
         private static readonly StereoData[] StereoAudioBuffer = new StereoData[StereoBufferSize];
 
         // First is sample storage, second is phase storage
-        private static ConcurrentDictionary<float, AudioBuffer> _preloadAudioBuffers;
+        private static ConcurrentDictionary<float, AudioPreBuffer> _preloadAudioBuffers;
+        private static StereoData _currentPhase;
+        private static StereoData _currentAmplitude;
+        private static StereoData _currentTargetAmplitude;
+        private static float _currentAttackTime;
 
         #endregion
 
         #region Preload Buffers
-        
-                /// <summary>
+
+        /// <summary>
         ///   Initializes the preload buffer storage based on a given frequency table.
         /// </summary>
         /// <param name="frequencyTable"> the frequency table scriptable object to use </param>
         public static void InitializePreloadBuffers(FrequencyTable frequencyTable)
         {
-            _preloadAudioBuffers = new ConcurrentDictionary<float, AudioBuffer>(1, frequencyTable.Count);
+            _preloadAudioBuffers = new ConcurrentDictionary<float, AudioPreBuffer>(1, frequencyTable.Count);
         }
 
         public static void FillPreloadAudioBuffers(
             FrequencyTable frequencyTable,
+            float attackTime,
             Func<float, float, float, SampleState> generator,
             float amplitude
         )
         {
-            Debug.Log(amplitude);
-            
             FillPreloadAudioBuffers(
                 frequencyTable,
+                attackTime,
                 generator,
                 generator,
                 amplitude,
@@ -60,44 +64,77 @@ namespace Synth_Engine.Buffering_System
 
         private static void FillPreloadAudioBuffers(
             FrequencyTable frequencyTable,
+            float attackTime,
             Func<float, float, float, SampleState> leftGenerator,
             Func<float, float, float, SampleState> rightGenerator,
             float leftAmplitude,
             float rightAmplitude
         )
         {
-            // generate the buffers using parallelization
             Parallel.ForEach(frequencyTable, frequency =>
             {
                 var stereoBuffer = new StereoData[StereoBufferSize];
-
-                // track this outside of the loop to avoid unnecessary calculations and race conditions
                 var phaseLeft = 0f;
                 var phaseRight = 0f;
-
-                var targetLeftAmplitude = leftAmplitude; 
-                var targetRightAmplitude = rightAmplitude;
-                
-                // generate the buffer
-                for (var i = 0; i < StereoBufferSize; i++)
-                {
-                    //leftAmplitude = EnvelopeManager.SetAttack(leftAmplitude, targetLeftAmplitude, 0.9f, phaseLeft);
-                    //rightAmplitude = EnvelopeManager.SetAttack(rightAmplitude, targetRightAmplitude, 0.9f, phaseRight);
-                    
-                    // generate the left and right channels using the generators and the current phase
-                    var left = leftGenerator(frequency, leftAmplitude, phaseLeft);
-                    var right = rightGenerator(frequency, rightAmplitude, phaseRight);
-
-                    stereoBuffer[i] = new StereoData(left.Sample, right.Sample);
-
-                    phaseLeft = left.Phase;
-                    phaseRight = right.Phase;
-                }
-
-                // add the buffer to the dictionary with the associated frequency and phase data
-                _preloadAudioBuffers.TryAdd(frequency, new AudioBuffer(stereoBuffer, phaseLeft, 
-                    phaseRight, leftAmplitude, rightAmplitude, targetLeftAmplitude, targetRightAmplitude));
+                // The TryAdd method doesn't replace the value if the key already exists...
+                // That's why it didn't work, now we directly access and replace it
+                _preloadAudioBuffers[frequency] = GenerateAudioPreBuffer(
+                    frequency, attackTime, stereoBuffer,
+                    ref phaseLeft, ref phaseRight,
+                    leftAmplitude, rightAmplitude,
+                    leftGenerator, rightGenerator
+                );
             });
+        }
+
+        private static AudioPreBuffer GenerateAudioPreBuffer(
+            float frequency,
+            float attackTime,
+            StereoData[] stereoBuffer,
+            ref float phaseLeft,
+            ref float phaseRight,
+            float targetLeftAmplitude,
+            float targetRightAmplitude,
+            Func<float, float, float, SampleState> leftGenerator,
+            Func<float, float, float, SampleState> rightGenerator
+        )
+        {
+            var leftAmplitude = targetLeftAmplitude;
+            var rightAmplitude = targetRightAmplitude;
+
+            for (var i = 0; i < StereoBufferSize; i++)
+            {
+                leftAmplitude = EnvelopeManager.SetAttack(
+                    leftAmplitude,
+                    targetLeftAmplitude,
+                    attackTime,
+                    phaseLeft
+                );
+
+                rightAmplitude = EnvelopeManager.SetAttack(
+                    rightAmplitude,
+                    targetRightAmplitude,
+                    attackTime,
+                    phaseRight
+                );
+
+                // generate the left and right channels using the generators and the current phase
+                var left = leftGenerator(frequency, leftAmplitude, phaseLeft);
+                var right = rightGenerator(frequency, rightAmplitude, phaseRight);
+
+                stereoBuffer[i] = new StereoData(left.Sample, right.Sample);
+
+                phaseLeft = left.Phase;
+                phaseRight = right.Phase;
+            }
+
+            return new AudioPreBuffer(
+                stereoBuffer,
+                new StereoData(phaseLeft, phaseRight),
+                new StereoData(leftAmplitude, rightAmplitude),
+                new StereoData(targetLeftAmplitude, targetRightAmplitude),
+                attackTime
+            );
         }
 
         /// <summary>
@@ -107,27 +144,34 @@ namespace Synth_Engine.Buffering_System
         /// <param name="frequency"></param>
         public static void SetPreloadAudioBuffer(float frequency)
         {
-            _preloadAudioBuffers[frequency].AudioStereoBuffer.CopyToFloatArray(CurrentAudioBuffer);
+            if (!_preloadAudioBuffers.TryGetValue(frequency, out var bufferData))
+                return;
+
+            bufferData.AudioStereoBuffer.CopyToFloatArray(CurrentAudioBuffer);
+
+            _currentPhase = bufferData.FinalPhase;
+            _currentAmplitude = bufferData.FinalAmplitude;
+            _currentTargetAmplitude = bufferData.TargetAmplitude;
         }
 
         #endregion
 
         #region Audio Buffer Generation
-        
+
         /// <summary>
         ///  Fills the next audio buffer using a given generator and amplitude and frequency.
         /// </summary>
         /// <param name="generator"> the generator of the audio </param>
         /// <param name="frequency"> the frequency of the given audio </param>
         public static void FillNextAudioBuffer(
-            Func<float, float, float, SampleState> generator,
-            float frequency
+            float frequency,
+            Func<float, float, float, SampleState> generator
         )
         {
             FillNextAudioBuffer(
+                frequency,
                 generator,
-                generator,
-                frequency
+                generator
             );
         }
 
@@ -135,36 +179,36 @@ namespace Synth_Engine.Buffering_System
         /// Fills the next audio buffer for both left and right channels using provided generators and amplitudes.
         /// </summary>
         private static void FillNextAudioBuffer(
+            float frequency,
             Func<float, float, float, SampleState> generatorLeft,
-            Func<float, float, float, SampleState> generatorRight,
-            float frequency
+            Func<float, float, float, SampleState> generatorRight
         )
         {
-            var bufferData = _preloadAudioBuffers[frequency];
-            var phase = bufferData.FinalPhase;
-            var amplitude = bufferData.FinalAmplitude;
-            var targetAmplitude = bufferData.TargetAmplitude;
-
             for (var i = 0; i < StereoBufferSize; i++)
             {
-                // var amplitudeLeft = EnvelopeManager.SetAttack(amplitude.LeftChannel, 
-                //     targetAmplitude.LeftChannel, 0.9f, phase.LeftChannel);
-                //
-                // var amplitudeRight = EnvelopeManager.SetAttack(amplitude.RightChannel, 
-                //     targetAmplitude.RightChannel, 0.9f, phase.RightChannel);
-                
-                var left= generatorLeft(frequency, amplitude.LeftChannel, phase.LeftChannel);
-                var right = generatorRight(frequency, amplitude.RightChannel, phase.RightChannel);
+                _currentAmplitude = new StereoData(
+                    EnvelopeManager.SetAttack(
+                        _currentAmplitude.LeftChannel,
+                        _currentTargetAmplitude.LeftChannel,
+                        _currentAttackTime,
+                        _currentPhase.LeftChannel
+                    ),
+                    EnvelopeManager.SetAttack(
+                        _currentAmplitude.RightChannel,
+                        _currentTargetAmplitude.RightChannel,
+                        _currentAttackTime,
+                        _currentPhase.RightChannel
+                    )
+                );
+
+                var left = generatorLeft(frequency, _currentAmplitude.LeftChannel, _currentPhase.LeftChannel);
+                var right = generatorRight(frequency, _currentAmplitude.RightChannel, _currentPhase.RightChannel);
 
                 StereoAudioBuffer[i] = new StereoData(left.Sample, right.Sample);
-
-                phase = new StereoData(left.Phase, right.Phase);
-                // amplitude = new StereoData(amplitudeLeft, amplitudeRight);
+                
+                _currentPhase = new StereoData(left.Phase, right.Phase);
             }
 
-            // update the phase data in the dictionary for the given frequency
-            _preloadAudioBuffers[frequency] = new AudioBuffer(bufferData.AudioStereoBuffer, phase, amplitude, targetAmplitude);
-        
             // copy the stereo audio buffer to the next audio buffer
             StereoAudioBuffer.CopyToFloatArray(NextAudioBuffer);
         }
@@ -179,7 +223,7 @@ namespace Synth_Engine.Buffering_System
             {
                 throw new ArgumentException("Invalid buffer provided.", nameof(bufferOut));
             }
-            
+
             CopyAudioBuffer(CurrentAudioBuffer, bufferOut);
         }
 

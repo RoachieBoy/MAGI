@@ -23,5 +23,10 @@ namespace General.UI_Buttons.Module_Button
             
             _button.onClick.AddListener(() => { synthModuleUnityEvent.Invoke(synthModule);});
         }
+        
+        private void OnDestroy()
+        {
+            _button.onClick.RemoveAllListeners();
+        }
     }
 }

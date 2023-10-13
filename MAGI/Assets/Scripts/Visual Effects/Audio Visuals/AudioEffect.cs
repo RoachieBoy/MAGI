@@ -6,10 +6,8 @@ namespace Visual_Effects.Audio_Visuals
     [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
     public abstract class AudioEffect: MonoBehaviour
     {
-        [Header("Effect Settings")]
-        [SerializeField, Range(0, 25)] private float bias = 100f;
-        [SerializeField, Range(0f, 0.5f)] private float timeStep = 0.1f;
-        [SerializeField, Range(0f, 1f)] public float duration = 0.1f;
+        [Header("What are my papa settings?")]
+        [SerializeField] protected AudioVisualsSettings settings;
         
         private float _audioValue;
         private float _previousAudioValue;
@@ -26,11 +24,15 @@ namespace Visual_Effects.Audio_Visuals
         public void FixedUpdate()
         {
             _previousAudioValue = _audioValue;
-            _audioValue = GetSpectrumData.SpectrumValue;
-    
-            if (Mathf.Sign(_previousAudioValue - bias) != Mathf.Sign(_audioValue - bias) && _timer > timeStep)
-                OnBeat();
             
+            _audioValue = GetSpectrumData.SpectrumValue;
+
+            if (Mathf.Sign(_previousAudioValue - settings.Bias) != 
+                Mathf.Sign(_audioValue - settings.Bias) && _timer > settings.TimeStep)
+            {
+                OnBeat();
+            }
+
             _timer += Time.deltaTime;
         }
 

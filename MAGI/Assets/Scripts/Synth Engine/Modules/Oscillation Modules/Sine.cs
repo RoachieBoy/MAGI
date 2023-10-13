@@ -9,10 +9,12 @@ using UnityEngine;
          public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
          {
                 var phaseIncrement = frequency / SampleRate;
+
+                var sample = Mathf.Sin(initialPhase * 2.0f * Mathf.PI); 
+                
+                sample *= amplitude;
                 
                 initialPhase = (initialPhase + phaseIncrement) % 1;
-                
-                var sample = Mathf.Sin(initialPhase * Mathf.PI * 2) * amplitude;
 
                 return new SampleState(sample, initialPhase);
          }

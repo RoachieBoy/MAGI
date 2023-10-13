@@ -8,7 +8,6 @@ namespace Synth_Engine
 {
     public class SynthStateManager: MonoBehaviour
     {   
-        
         [Header("General Settings")]
         [SerializeField] private KeyTable pianoKeyTable;
         [SerializeField] private BoolUnityEvent isPlaying;

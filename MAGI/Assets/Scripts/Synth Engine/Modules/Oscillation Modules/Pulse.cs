@@ -6,9 +6,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     [CreateAssetMenu(fileName = "PulseWave", menuName = "SynthModules/Oscillation/Pulse")]
     public class Pulse : SynthModule
     {
-        // Duty cycle, a value between 0 and 1 where 0 means always low, and 1 means always high.
         [SerializeField] private float dutyCycle = 0.25f;
-        
         [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
 
         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)

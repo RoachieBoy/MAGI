@@ -21,7 +21,6 @@ namespace Synth_Engine.Modules
         /// <param name="frequency"> the frequency of the oscillation wave, which determines the note</param>
         /// <param name="amplitude"> the amplitude of the oscillation wave, which determines the volume of the note</param>
         /// <param name="initialPhase"> what phase should the wave start in </param>
-        public abstract SampleState GenerateSample(float frequency, float amplitude,
-            float initialPhase);
+        public abstract SampleState GenerateSample(float frequency, float amplitude, float initialPhase);
     }
 }

@@ -15,7 +15,9 @@ namespace Visual_Effects.Audio_Visuals.Effects
         {
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             
-            _currentColor = colourSettings.Colours[0];
+            var randomIndex = Random.Range(0, colourSettings.Colours.Length);
+            
+            _currentColor = colourSettings.Colours[randomIndex];
             
             _spriteRenderer.color = _currentColor;
         }

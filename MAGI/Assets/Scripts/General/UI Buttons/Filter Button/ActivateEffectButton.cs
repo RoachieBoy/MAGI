@@ -1,7 +1,7 @@
-﻿using General.Custom_Event_Types;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Utilities.Custom_Event_Types;
 
 namespace General.UI_Buttons.Filter_Button
 {

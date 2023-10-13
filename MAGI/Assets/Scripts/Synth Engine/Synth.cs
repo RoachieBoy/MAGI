@@ -5,6 +5,7 @@ using Synth_Engine.Modules;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using Utilities.Custom_Event_Types;
 
 namespace Synth_Engine
 {

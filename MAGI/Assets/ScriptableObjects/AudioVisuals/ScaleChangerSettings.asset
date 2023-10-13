@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ScaleChangerSettings
   m_EditorClassIdentifier: 
   minSize: {x: 1, y: 1, z: 1}
-  maxSize: {x: 2, y: 2, z: 2}
+  maxSize: {x: 1, y: 5, z: 1}

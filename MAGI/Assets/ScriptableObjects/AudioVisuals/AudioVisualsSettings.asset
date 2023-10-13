@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52e8fb5321547a59be01bcf39add27e, type: 3}
   m_Name: AudioVisualsSettings
   m_EditorClassIdentifier: 
-  bias: 100
-  timeStep: 0.1
-  duration: 0.1
+  bias: 10.3
+  timeStep: 0.116
+  duration: 0.458

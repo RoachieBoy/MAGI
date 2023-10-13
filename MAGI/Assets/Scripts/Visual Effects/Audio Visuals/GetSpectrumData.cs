@@ -21,7 +21,9 @@ namespace Visual_Effects.Audio_Visuals
 
         private void Update()
         {
+            // get spectrum data from both channels
             AudioListener.GetSpectrumData(_spectrumData, 0, settings.FftWindow);
+            AudioListener.GetSpectrumData(_spectrumData, 1, settings.FftWindow);
             
             if(_spectrumData is {Length: > 0})
                 SpectrumValue = _spectrumData[0] * settings.EffectMultiplier;

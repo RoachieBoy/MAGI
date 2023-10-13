@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bec7d3e55844c28522f48010ed71b6, type: 3}
   m_Name: SpectrumDataSettings
   m_EditorClassIdentifier: 
-  fftWindow: 5
+  fftWindow: 0
   spectrumSize: 64
-  effectMultiplier: 100
+  effectMultiplier: 200

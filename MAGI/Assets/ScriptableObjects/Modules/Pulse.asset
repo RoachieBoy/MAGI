@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Pulse
   m_EditorClassIdentifier: 
   dutyCycle: 0.25
-  volumeModifier: 0.054
+  volumeModifier: 0.131

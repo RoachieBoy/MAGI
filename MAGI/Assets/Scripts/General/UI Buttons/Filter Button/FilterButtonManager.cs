@@ -17,6 +17,9 @@ namespace General.UI_Buttons.Filter_Button
         [Header("What color do I use when I'm selected?")]
         [SerializeField] private Color selectedColor = Color.cyan;
         
+        [Header("Which button should be selected by default?")]
+        [SerializeField] private Button defaultButton;
+        
         private void Start()
         {
             buttons.ForEach(button =>

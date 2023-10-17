@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,16 +46,18 @@ namespace General.Data_Containers
         /// <param name="keyNumber"> the current key in the table </param>
         public string GetNote(int keyNumber)
         {
-            // get the note name
-            var noteName = (Notes) (((int) baseNote + keyNumber) % (int) Notes.B);
+            // get the note index
+            var noteIndex = (int) baseNote + (keyNumber - baseKeyNumber) % (int) Notes.B;
             
             // get the octave
-            var octave =  startingOctave + ((int) baseNote + keyNumber) / (int) Notes.B;
+            var octave = startingOctave + (keyNumber - baseKeyNumber) / (int) Notes.B;
             
-            // return the note name and the octave
-            return $"{noteName.ToFormattedString()}{octave}";
+            // get the note
+            var note = (Notes) (noteIndex + 1);
+            
+            // return the note and the octave
+            return $"{note.ToFormattedString()}{octave}";
         }
-
 
         /// <summary>
         /// Get all the frequencies for the piano keys that are in the frequency table
@@ -70,6 +71,8 @@ namespace General.Data_Containers
             for (var i = 1; i < numKeys; i++)
             {
                frequencies[CalculateFrequency(i)] = GetNote(i);
+               
+               Debug.Log($"Key: {i} Frequency: {CalculateFrequency(i)} Note: {GetNote(i)}");
             }
             
             return frequencies; 

@@ -76,10 +76,9 @@ namespace Synth_Engine.Buffering_System
                 var stereoBuffer = new StereoData[StereoBufferSize];
                 var phaseLeft = 0f;
                 var phaseRight = 0f;
-                // The TryAdd method doesn't replace the value if the key already exists...
-                // That's why it didn't work, now we directly access and replace it
-                _preloadAudioBuffers[frequency] = GenerateAudioPreBuffer(
-                    frequency, attackTime, stereoBuffer,
+                
+                _preloadAudioBuffers[frequency.Key] = GenerateAudioPreBuffer(
+                    frequency.Key, attackTime, stereoBuffer,
                     ref phaseLeft, ref phaseRight,
                     leftAmplitude, rightAmplitude,
                     leftGenerator, rightGenerator

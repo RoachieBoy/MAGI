@@ -17,6 +17,8 @@ namespace Synth_Engine
         private float _frequency;
         private int _octaveShift;
 
+        public StringUnityEvent onNoteChanged; 
+
         private readonly InputActionMap _octaveShiftUpActionMap = new();
         private readonly InputActionMap _octaveShiftDownActionMap = new();
 
@@ -26,11 +28,11 @@ namespace Synth_Engine
         [Header("Default Synth")] 
         [SerializeField] private SynthModule defaultSynth;
 
-        [Header("Feed me keys & frequencies!")] 
+        [Header("Feed me important objects!")] 
         [SerializeField] private FrequencyTable frequencyTable;
         [SerializeField] private KeyTable pianoKeyTable;
 
-        [Header("ADSR Values")] 
+        [Header("ADSR Values (envelope)")] 
         [SerializeField] private float attackTime = 0.9f;
 
         [Header("Debug View")] 
@@ -106,10 +108,18 @@ namespace Synth_Engine
                 amplitude = value;
             }
         }
+        
+        /// <summary>
+        ///  The note that is currently being played.
+        /// </summary>
+        public string Note
+        {
+            set => onNoteChanged.Invoke(value);
+        }
 
         #endregion
 
-        #region Tonal Shifts
+        #region Note Behaviour
 
         /// <summary>
         /// Shifts the octave up by 12 semitones.
@@ -153,8 +163,7 @@ namespace Synth_Engine
 
         private void Start()
         {
-            // Get index of base key in frequency table the -1 is done because the frequency table is 1-indexed
-            _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1;
+            _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1; 
 
             CreateInputActionMap();
             MapKeyToFrequencies();
@@ -234,7 +243,14 @@ namespace Synth_Engine
                 var frequency = frequencyTable[_octaveShift + i];
 
                 // When a key is pressed, set the frequency 
-                action.started += _ => { Frequency = frequency; };
+                var index = i;
+                
+                action.started += _ =>
+                {
+                     Frequency = frequency;
+                     
+                     Note = frequencyTable.GetNote(_octaveShift + index);
+                };
             }
         }
 

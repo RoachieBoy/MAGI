@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Visual_Effects;
 
-namespace General.UI_Buttons.Module_Button
+namespace General.UI.Module_Button
 {
-    public class ModuleButtonManager : MonoBehaviour
+    public class ColourManagerButtons : MonoBehaviour
     {
-        private Color _defaultColor; 
-        
+        private Color _defaultColor;
+
         private readonly Color _selectedColor = Color.magenta;
         private readonly Dictionary<Button, Image> _buttonImageMap = new();
         
@@ -19,26 +20,25 @@ namespace General.UI_Buttons.Module_Button
             foreach (var btn in buttons)
             {
                 var img = btn.GetComponent<Image>();
-                
+
                 if (img == null) continue;
-                
+
                 _buttonImageMap[btn] = img;
 
-                // Store the default color from the first button 
+                // Store the default color of the first button
                 if (_defaultColor == default) _defaultColor = img.color;
-                
-                btn.onClick.AddListener(delegate { UpdateButtonColor(btn);});
+
+                btn.onClick.AddListener(delegate
+                {
+                    UpdateButton(btn);
+                });
             }
-            
+
             // Select the default button
-            UpdateButtonColor(defaultButton);
+            UpdateButton(defaultButton);
         }
 
-        /// <summary>
-        ///  Selects the button by changing its color
-        /// </summary>
-        /// <param name="clickedButton"> the button that has just been clicked </param>
-        private void UpdateButtonColor(Object clickedButton)
+        private void UpdateButton(Object clickedButton)
         {
             foreach (var (key, value) in _buttonImageMap)
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,60 +7,96 @@ using UnityEngine;
 namespace General.Data_Containers
 {
     [CreateAssetMenu(fileName = "FrequencyTable", menuName = "Tables/FrequencyTable", order = 1)]
-    public class FrequencyTable : ScriptableObject, IReadOnlyList<float>
+    public class FrequencyTable : ScriptableObject, IReadOnlyDictionary<float, string>
     {
-        // common number in music used for pitch adjustment 
+        // pitch ratio for a semitone
         private const float TwelfthRootOfTwo = 1.059463094359f;
         
-        private List<float> _frequencies;
+        private Dictionary<float, string> _frequencies;
         
-        [Header("Keyboard Settings")]
+        [Header("Frequency Settings")]
         [SerializeField] private int numKeys = 88;
         [SerializeField] private float baseFrequency = 440.0f;
         [SerializeField] private int baseKeyNumber = 49;
+        
+        [Header("Note settings")]
+        [SerializeField] private Notes baseNote = Notes.A;
+        [SerializeField] private int startingOctave = 4;
 
         /// <summary>
         ///  This is the index of A4 in the standard frequency table
         /// </summary>
-        public int BaseKeyNumber => baseKeyNumber;
+        public int BaseKeyNumber => baseKeyNumber; 
 
         /// <summary>
         ///  Calculate the frequency of a given key number 
         /// </summary>
         /// <param name="keyNumber"> which key is pressed </param>
-        /// <returns> float representing the correct frequency of the key </returns>
         private float CalculateFrequency(int keyNumber)
         {
-            var n = keyNumber - baseKeyNumber;
-
-            return baseFrequency * Mathf.Pow(TwelfthRootOfTwo, n);
+            var semitoneOffset = keyNumber - baseKeyNumber;
+     
+            var frequency = baseFrequency * Mathf.Pow(TwelfthRootOfTwo, semitoneOffset);
+            
+            return frequency;
         }
 
         /// <summary>
-        /// Get all the frequencies for the piano keys
+        ///  Get the note of a given key number
         /// </summary>
-        /// <returns> list of frequencies for all the keys </returns>
-        private List<float> GetAllPianoKeyFrequencies()
+        /// <param name="keyNumber"> the current key in the table </param>
+        public string GetNote(int keyNumber)
         {
-            var frequencies = new float[numKeys];
+            // get the note name
+            var noteName = (Notes) (((int) baseNote + keyNumber) % (int) Notes.B);
+            
+            // get the octave
+            var octave =  startingOctave + ((int) baseNote + keyNumber) / (int) Notes.B;
+            
+            // return the note name and the octave
+            return $"{noteName.ToFormattedString()}{octave}";
+        }
 
-            for (var i = 1; i <= numKeys; i++)
+
+        /// <summary>
+        /// Get all the frequencies for the piano keys that are in the frequency table
+        /// </summary>
+        private Dictionary<float, string> GetAllFrequenciesAndNotes()
+        {
+            // get the frequency and use the note as value
+            var frequencies = new Dictionary<float, string>(numKeys);
+            
+            // add all the frequencies to the dictionary and use the note as value
+            for (var i = 1; i < numKeys; i++)
             {
-                frequencies[i - 1] = CalculateFrequency(i);
+               frequencies[CalculateFrequency(i)] = GetNote(i);
             }
-
-            return frequencies.ToList();
+            
+            return frequencies; 
         }
 
         private void OnValidate()
         {
-            // update the frequencies when the inspector values change
-            _frequencies = GetAllPianoKeyFrequencies();
+            // update the frequencies when the inspector values change 
+            // this only happens in the editor!!!
+            _frequencies = GetAllFrequenciesAndNotes();
         }
-        
-        public IEnumerator<float> GetEnumerator()
+
+        private void OnEnable()
+        {
+            // update the frequencies when the scriptable object is loaded
+            // this happens in the editor and at runtime
+            _frequencies = GetAllFrequenciesAndNotes();
+        }
+
+        IEnumerator<KeyValuePair<float, string>> IEnumerable<KeyValuePair<float, string>>.GetEnumerator()
         {
             return _frequencies.GetEnumerator();
+        }
+
+        public IEnumerator<float> GetEnumerator()
+        {
+            return _frequencies.Keys.GetEnumerator();
         }
         
         IEnumerator IEnumerable.GetEnumerator()
@@ -68,7 +105,23 @@ namespace General.Data_Containers
         }
     
         public int Count => _frequencies.Count;
-    
-        public float this[int index] => _frequencies[index];
+        
+        public float this[int index] => _frequencies.Keys.ElementAt(index);
+        
+        public bool ContainsKey(float key)
+        {
+            return _frequencies.ContainsKey(key);
+        }
+
+        public bool TryGetValue(float key, out string value)
+        {
+            return _frequencies.TryGetValue(key, out value);
+        }
+
+        public string this[float key] => _frequencies[key];
+
+        public IEnumerable<float> Keys => _frequencies.Keys;
+        
+        public IEnumerable<string> Values => _frequencies.Values;
     }
 }

@@ -30,7 +30,6 @@ namespace General.UI.Module_Button
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
-            
             _button = GetComponent<Button>();
             
             _button.onClick.AddListener(() =>

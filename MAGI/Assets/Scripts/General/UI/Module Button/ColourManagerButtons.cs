@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Visual_Effects;
 
 namespace General.UI.Module_Button
 {
     public class ColourManagerButtons : MonoBehaviour
     {
         private Color _defaultColor;
-
-        private readonly Color _selectedColor = Color.magenta;
         private readonly Dictionary<Button, Image> _buttonImageMap = new();
         
         [SerializeField] private List<Button> buttons = new();
         [SerializeField] private Button defaultButton;
+        [SerializeField] private Color selectedColor = Color.magenta;
 
         private void Start()
         {
@@ -42,7 +40,7 @@ namespace General.UI.Module_Button
         {
             foreach (var (key, value) in _buttonImageMap)
             {
-                value.color = key == clickedButton ? _selectedColor : _defaultColor;
+                value.color = key == clickedButton ? selectedColor : _defaultColor;
             }
         }
     }

@@ -1,8 +1,9 @@
-﻿using UnityEngine.Audio;
+﻿using System;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 
 namespace Utilities.Custom_Event_Types
 {
-    [System.Serializable]
+    [Serializable]
     public class AudioMixerGroupUnityEvent : UnityEvent<AudioMixerGroup> {}
 }

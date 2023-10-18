@@ -1,7 +1,8 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine.Events;
 
 namespace Utilities.Custom_Event_Types
 {
-    [System.Serializable]
+    [Serializable]
     public class StringUnityEvent: UnityEvent<string> {}
 }

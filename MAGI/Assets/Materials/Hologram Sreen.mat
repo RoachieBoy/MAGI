@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BlendMap:
-        m_Texture: {fileID: 2800000, guid: e22148ba8ac2f0c448fdb186f062f093, type: 3}
+        m_Texture: {fileID: 2800000, guid: 570c41c735982e046aac9d652e5478b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a1c7ffc5e7f53f148a183fcb1f68cd17, type: 3}
+        m_Texture: {fileID: 2800000, guid: 570c41c735982e046aac9d652e5478b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -76,20 +76,20 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HoloIntensityFactor: 2
+    - _HoloIntensityFactor: 1.33
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PulseIntensity: 5.75
+    - _PulseIntensity: 7.79
     - _PulsingEnabled: 1
-    - _PulsingFactor: 0.51
-    - _RimBlend: 0.339
+    - _PulsingFactor: 1.91
+    - _RimBlend: 0.354
     - _RimBlendEnabled: 1
-    - _RimBlendFactor: 1
+    - _RimBlendFactor: 2
     - _ScanningEnabled: 1
-    - _ScanningFrequency: 18
-    - _ScanningSpeed: 80
+    - _ScanningFrequency: 200
+    - _ScanningSpeed: 153
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -102,5 +102,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HologramColor: {r: 1, g: 1, b: 1, a: 1}
     - _LightingDirection: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0.8396226, g: 0, b: 0.7129613, a: 1}
+    - _RimColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

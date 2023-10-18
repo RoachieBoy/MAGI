@@ -46,7 +46,7 @@ Shader "Custom/Hologram"
     {
         Tags
         {
-            "RenderType"="Transparent" 
+            "RenderType"="Opaque" 
         }
         
         LOD 100
@@ -141,17 +141,17 @@ Shader "Custom/Hologram"
                 half4 blendMapColor = tex2D(blend_map, i.uv); // Sample the blend map
 
                 // Calculate hologram intensity and rim blend based on blend map colors
-                const half hologramIntensity = blendMapColor.r * _HoloIntensityFactor;
-                const half rimBlend = blendMapColor.b * _RimBlendFactor; 
+                const half hologram_intensity = blendMapColor.r * _HoloIntensityFactor;
+                const half rim_blend = blendMapColor.b * _RimBlendFactor; 
 
                 // Define the normalized direction of the light source
-                const half3 lightDir = normalize(_LightingDirection);
+                const half3 light_dir = normalize(_LightingDirection);
 
                 // Calculate the intensity of light reflection based on the vertex normal and light direction
-                const half intensity = max(0, dot(lightDir, normalize(i.vertex.y)));
+                const half intensity = max(0, dot(light_dir, normalize(i.vertex.y)));
 
                 // Calculate basic hologram color using light effect
-                half4 mainHoloColour = _HologramColor * intensity * hologramIntensity;
+                half4 mainHoloColour = _HologramColor * intensity * hologram_intensity;
 
                 // Apply scanning effect
                 if (_ScanningEnabled > 0) mainHoloColour *= 1 -
@@ -164,7 +164,7 @@ Shader "Custom/Hologram"
                 // this will represent the final colour that the hologram will take on 
                 half4 finalColor;
 
-                if (_RimBlendEnabled > 0) finalColor = lerp(mainHoloColour, startingColour, rimBlend);
+                if (_RimBlendEnabled > 0) finalColor = lerp(mainHoloColour, startingColour, rim_blend);
                 else finalColor = mainHoloColour;
 
                 // rim color to the final colour of the hologram 

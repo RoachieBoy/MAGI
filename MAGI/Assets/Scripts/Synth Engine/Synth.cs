@@ -224,7 +224,7 @@ namespace Synth_Engine
         /// </summary>
         private void CreateInputActionMap()
         {
-            foreach (var key in pianoKeyTable)
+            foreach (var key in pianoKeyTable) 
                 InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString().ToLower());
 
             inputActionMap.Enable();

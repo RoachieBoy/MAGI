@@ -241,15 +241,14 @@ namespace Synth_Engine
 
                 // Get the frequency of the key
                 var frequency = frequencyTable[_octaveShift + i];
-
-                // When a key is pressed, set the frequency 
-                var index = i;
+                
+                // Get the note of the key 
+                var note = frequencyTable.GetNote(_octaveShift + i);
                 
                 action.started += _ =>
                 {
                      Frequency = frequency;
-                     
-                     Note = frequencyTable.GetNote(_octaveShift + index);
+                     Note = note;
                 };
             }
         }

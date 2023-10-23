@@ -46,19 +46,22 @@ namespace General.Data_Containers
         /// <param name="keyNumber"> the current key in the table </param>
         public string GetNote(int keyNumber)
         {
-            // get the note index
-            var noteIndex = (int) baseNote + (keyNumber - baseKeyNumber) % (int) Notes.B;
+            // which note is it based on the base key number
+            var noteIndex = Mathf.Abs((keyNumber + baseKeyNumber) % 12);
             
-            // get the octave
-            var octave = startingOctave + (keyNumber - baseKeyNumber) / (int) Notes.B;
+            // Calculate the octave based on a standard 8-octave range starting at 1
+            var octave = (startingOctave + ((keyNumber - baseKeyNumber) / 12)) + 1;
             
-            // get the note
-            var note = (Notes) (noteIndex + 1);
+            // Map the note index to the corresponding note starting from the base note
+            var note = (Notes) noteIndex + (int) baseNote;
             
-            // return the note and the octave
+            // ensure when the note is higher than B that the enum starts from A again
+            note = note > Notes.B ? note - 12 : note;
+
+            // Return the note and the octave using formatted string
             return $"{note.ToFormattedString()}{octave}";
         }
-
+        
         /// <summary>
         /// Get all the frequencies for the piano keys that are in the frequency table
         /// </summary>
@@ -71,8 +74,6 @@ namespace General.Data_Containers
             for (var i = 1; i < numKeys; i++)
             {
                frequencies[CalculateFrequency(i)] = GetNote(i);
-               
-               Debug.Log($"Key: {i} Frequency: {CalculateFrequency(i)} Note: {GetNote(i)}");
             }
             
             return frequencies; 
@@ -97,7 +98,7 @@ namespace General.Data_Containers
             return _frequencies.GetEnumerator();
         }
 
-        public IEnumerator<float> GetEnumerator()
+        private IEnumerator<float> GetEnumerator()
         {
             return _frequencies.Keys.GetEnumerator();
         }

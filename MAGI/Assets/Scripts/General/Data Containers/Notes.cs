@@ -1,5 +1,8 @@
 ﻿namespace General.Data_Containers
 {
+    /// <summary>
+    ///  Represents the 12 notes in an octave starting from C
+    /// </summary>
     public enum Notes
     {
         C = 1,

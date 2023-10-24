@@ -237,6 +237,7 @@ namespace Synth_Engine
         {
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {
+                // Get the action for the key
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
 
                 // Get the frequency of the key

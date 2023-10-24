@@ -6,9 +6,9 @@ namespace General.UI
 {
     public class DisplayNote: MonoBehaviour
     {
-        private TMP_Text _note;
-        
         [SerializeField] private Synth synth;
+        
+        private TMP_Text _note;
 
         private void Awake()
         {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Utilities.Custom_Event_Types;
 using Utilities.Sound;
 
-namespace General.UI.Module_Button
+namespace General.UI.Buttons
 {
     [RequireComponent(typeof(Button), typeof(AudioSource))]
     public class ActivateModuleButton : MonoBehaviour

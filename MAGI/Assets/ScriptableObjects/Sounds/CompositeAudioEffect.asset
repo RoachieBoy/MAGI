@@ -16,4 +16,4 @@ MonoBehaviour:
   - aEvent: {fileID: 11400000, guid: aa3e6676f468de44f980fd0eee9b1ec5, type: 2}
     weight: 50
   - aEvent: {fileID: 11400000, guid: aa3499d9acbcba94f9149400dccfbca7, type: 2}
-    weight: 50
+    weight: 60

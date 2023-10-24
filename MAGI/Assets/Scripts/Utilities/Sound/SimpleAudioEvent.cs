@@ -13,6 +13,9 @@ namespace Utilities.Sound
         [Range(0, 1)]
         [SerializeField] private float pitch = 1f;
         
+        /// <summary>
+        ///  The volume of the audio event playing the clip
+        /// </summary>
         public float Volume
         {
             get => volume;

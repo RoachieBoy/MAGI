@@ -44,7 +44,7 @@ namespace General.Data_Containers
         ///  Get the note of a given key number
         /// </summary>
         /// <param name="keyNumber"> the current key in the table </param>
-        public string GetNote(int keyNumber)
+        private string GetNote(int keyNumber)
         {
             // which note is it based on the base key number
             var noteIndex = Mathf.Abs((keyNumber + baseKeyNumber) % 12);
@@ -74,6 +74,8 @@ namespace General.Data_Containers
             for (var i = 1; i < numKeys; i++)
             {
                frequencies[CalculateFrequency(i)] = GetNote(i);
+               
+               //Debug.Log($"Key: {i} | Frequency: {CalculateFrequency(i)} | Note: {GetNote(i)}");
             }
             
             return frequencies; 

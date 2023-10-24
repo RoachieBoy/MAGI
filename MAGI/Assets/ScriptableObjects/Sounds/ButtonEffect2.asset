@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ea9b7dbbc9424aac665d8318e1365e, type: 3}
   m_Name: ButtonEffect2
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: e51d59fe6b060a348b463a6a129219d7, type: 3}
-  volume: 0.29
+  clip: {fileID: 8300000, guid: 034e674e0c5ff784bac7ee9bbfa0dc11, type: 3}
+  volume: 0.515
   pitch: 1

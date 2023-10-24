@@ -1,4 +1,6 @@
-﻿using General;
+﻿using System.Globalization;
+using System.Linq;
+using General;
 using General.Data_Containers;
 using Synth_Engine.Buffering_System;
 using Synth_Engine.Modules;
@@ -240,16 +242,14 @@ namespace Synth_Engine
                 // Get the action for the key
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
 
-                // Get the frequency of the key
+                // Get the frequency of the key 
                 var frequency = frequencyTable[_octaveShift + i];
                 
-                // Get the note of the key 
-                var note = frequencyTable.GetNote(_octaveShift + i);
+                //var note = frequencyTable.GetNoteFromFrequency(frequency);
                 
                 action.started += _ =>
                 {
                      Frequency = frequency;
-                     Note = note;
                 };
             }
         }

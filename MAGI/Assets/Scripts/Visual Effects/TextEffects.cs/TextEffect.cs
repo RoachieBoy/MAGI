@@ -24,7 +24,7 @@ namespace Visual_Effects.TextEffects.cs
             _textObject = GetComponent<TMP_Text>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _textObject.ForceMeshUpdate();
 

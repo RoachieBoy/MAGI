@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65e486e4de6e5448a8fbb43dc8756a0, type: 3}
   m_Name: Grain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -43,6 +43,7 @@ MonoBehaviour:
   settings:
   - {fileID: 2610284261712212415}
   - {fileID: -6276944998489057351}
+  - {fileID: 4724418678417969973}
 --- !u!114 &2610284261712212415
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -102,13 +103,13 @@ MonoBehaviour:
     value: -17
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 1, g: 0.81509435, b: 0.9030578, a: 1}
   hueShift:
     overrideState: 1
-    value: -63
+    value: -32
   saturation:
     overrideState: 1
-    value: 14
+    value: 100
   brightness:
     overrideState: 0
     value: 0
@@ -117,19 +118,19 @@ MonoBehaviour:
     value: 0
   contrast:
     overrideState: 1
-    value: -23
+    value: 9
   mixerRedOutRedIn:
     overrideState: 1
-    value: 39
+    value: 106
   mixerRedOutGreenIn:
     overrideState: 1
-    value: 35
+    value: 200
   mixerRedOutBlueIn:
     overrideState: 1
-    value: 56
+    value: -15
   mixerGreenOutRedIn:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 35
   mixerGreenOutGreenIn:
     overrideState: 0
     value: 100
@@ -1354,3 +1355,50 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &4724418678417969973
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  intensity:
+    overrideState: 1
+    value: 3.11
+  threshold:
+    overrideState: 0
+    value: 0.61
+  softKnee:
+    overrideState: 0
+    value: 0.221
+  clamp:
+    overrideState: 0
+    value: 65472
+  diffusion:
+    overrideState: 1
+    value: 6.4
+  anamorphicRatio:
+    overrideState: 0
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 1, g: 1, b: 1, a: 1}
+  fastMode:
+    overrideState: 0
+    value: 0
+  dirtTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  dirtIntensity:
+    overrideState: 0
+    value: 0

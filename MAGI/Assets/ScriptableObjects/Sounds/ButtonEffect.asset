@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ButtonEffect
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 05637a998ecb90145b938a43a1a1687c, type: 3}
-  volume: 0.648
+  volume: 0.745
   pitch: 1

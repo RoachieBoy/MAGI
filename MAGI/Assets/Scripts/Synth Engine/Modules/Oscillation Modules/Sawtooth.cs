@@ -1,4 +1,5 @@
 ﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using Synth_Engine.Native;
 using UnityEngine;
 
 namespace Synth_Engine.Modules.Oscillation_Modules
@@ -10,17 +11,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
         
         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var phaseIncrement = frequency / SampleRate;
-
-            // make it softer cause otherwise it's too loud
-            amplitude *= volumeModifier;
-            
-            // sawtooth wave is a linear function from 0 to 1 and then from 1 to 0
-            var value = (initialPhase + 0.5f) % 1 * amplitude;
-            
-            var updatedPhase = (initialPhase + phaseIncrement) % 1;
-            
-            return new SampleState(value, updatedPhase);
+            return SynthesizerNative.generate_sawtooth_sample(frequency, amplitude, initialPhase, SampleRate, volumeModifier);
         }
     }
 }

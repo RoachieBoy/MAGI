@@ -1,4 +1,5 @@
 ﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using Synth_Engine.Native;
 using UnityEngine;
 
 namespace Synth_Engine.Modules.Oscillation_Modules
@@ -8,15 +9,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     {
         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var phaseIncrement = frequency / SampleRate;
-
-            var value = Mathf.PingPong(initialPhase * 2.0f, 1.0f); 
-            
-            value *= amplitude;
-            
-            initialPhase = (initialPhase + phaseIncrement) % 1;
-            
-            return new SampleState(value, initialPhase);
+            return SynthesizerNative.generate_triangle_sample(frequency, amplitude, initialPhase, SampleRate);
         }
     }
 }

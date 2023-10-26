@@ -1,4 +1,5 @@
 ﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using Synth_Engine.Native;
 using UnityEngine;
 
 namespace Synth_Engine.Modules.Oscillation_Modules
@@ -11,16 +12,8 @@ namespace Synth_Engine.Modules.Oscillation_Modules
 
         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
-            var phaseIncrement = frequency / SampleRate;
-            
-            // add volume modification to ensure that the volume is not too loud
-            amplitude *= volumeModifier;
-
-            var value = initialPhase < dutyCycle ? amplitude : -amplitude;
-
-            var updatedPhase = (initialPhase + phaseIncrement) % 1;
-
-            return new SampleState(value, updatedPhase);
+            return SynthesizerNative.generate_pulse_sample(frequency, amplitude, initialPhase, SampleRate,
+                volumeModifier, dutyCycle);
         }
     }
 }

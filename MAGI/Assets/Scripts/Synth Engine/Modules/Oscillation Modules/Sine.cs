@@ -1,4 +1,5 @@
 ﻿using Synth_Engine.Buffering_System.Buffer_Data;
+using Synth_Engine.Native;
 using UnityEngine;
  
  namespace Synth_Engine.Modules.Oscillation_Modules
@@ -8,15 +9,7 @@ using UnityEngine;
      {
          public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
          {
-                var phaseIncrement = frequency / SampleRate;
-
-                var sample = Mathf.Sin(initialPhase * 2.0f * Mathf.PI); 
-                
-                sample *= amplitude;
-                
-                initialPhase = (initialPhase + phaseIncrement) % 1;
-
-                return new SampleState(sample, initialPhase);
+             return SynthesizerNative.generate_sine_sample(frequency, amplitude, initialPhase, SampleRate);
          }
      }
  }

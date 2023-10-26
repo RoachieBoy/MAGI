@@ -10,7 +10,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
         [SerializeField] private float dutyCycle = 0.25f;
         [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
 
-        public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
+        protected override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {
             return SynthesizerNative.generate_pulse_sample(frequency, amplitude, initialPhase, SampleRate,
                 volumeModifier, dutyCycle);

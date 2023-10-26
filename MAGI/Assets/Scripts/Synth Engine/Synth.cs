@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using General;
 using General.Data_Containers;
 using Synth_Engine.Buffering_System;
@@ -59,7 +58,7 @@ namespace Synth_Engine
                 AudioBufferManager.FillPreloadAudioBuffers(
                     frequencyDictionary,
                     attackTime,
-                    value.GenerateSample,
+                    value.GetGenerator,
                     Amplitude
                 );
 
@@ -106,7 +105,7 @@ namespace Synth_Engine
                 AudioBufferManager.FillPreloadAudioBuffers(
                     frequencyDictionary,
                     attackTime,
-                    ActiveSynth.GenerateSample,
+                    ActiveSynth.GetGenerator,
                     value
                 );
 
@@ -169,6 +168,7 @@ namespace Synth_Engine
 
         private void Start()
         {
+            // ensure that the frequency index is set to the base note of the software piano
             _frequencyIndex = (int) (frequencyDictionary.BaseKeyNumber - frequencyDictionary.BaseNote); 
 
             CreateInputActionMap();
@@ -198,7 +198,7 @@ namespace Synth_Engine
 
             // Generate samples for the given data array, channels, frequency, and amplitude
             AudioBufferManager.GetAudioBuffer(data);
-            AudioBufferManager.FillNextAudioBuffer(Frequency, ActiveSynth.GenerateSample);
+            AudioBufferManager.FillNextAudioBuffer(Frequency, ActiveSynth.GetGenerator);
             AudioBufferManager.SwitchAudioBuffers();
         }
 

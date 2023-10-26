@@ -7,7 +7,7 @@ using UnityEngine;
      [CreateAssetMenu(fileName = "Sine", menuName = "SynthModules/Oscillation/Sine")]
      public class Sine: SynthModule
      {
-         public override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
+         protected override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
          {
              return SynthesizerNative.generate_sine_sample(frequency, amplitude, initialPhase, SampleRate);
          }

@@ -8,26 +8,47 @@ namespace Synth_Engine.Native
         private const string DllName = "synthesizer_native";
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern SampleState generate_sine_sample(float frequency, float amplitude, float initialPhase,
-            float sampleRate);
+        public static extern SampleState generate_sine_sample(
+            float frequency,
+            float amplitude,
+            float initialPhase,
+            float sampleRate
+        );
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern SampleState generate_square_sample(float frequency, float amplitude, float initialPhase,
+        public static extern SampleState generate_square_sample(
+            float frequency,
+            float amplitude,
+            float initialPhase,
             float sampleRate,
-            float volumeModifier);
+            float volumeModifier
+        );
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern SampleState generate_sawtooth_sample(float frequency, float amplitude, float initialPhase,
+        public static extern SampleState generate_sawtooth_sample(
+            float frequency,
+            float amplitude,
+            float initialPhase,
             float sampleRate,
-            float volumeModifier);
+            float volumeModifier
+        );
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern SampleState generate_triangle_sample(float frequency, float amplitude, float initialPhase,
-            float sampleRate);
+        public static extern SampleState generate_triangle_sample(
+            float frequency,
+            float amplitude,
+            float initialPhase,
+            float sampleRate
+        );
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern SampleState generate_pulse_sample(float frequency, float amplitude, float initialPhase,
+        public static extern SampleState generate_pulse_sample(
+            float frequency,
+            float amplitude,
+            float initialPhase,
             float sampleRate,
-            float volumeModifier, float dutyCycle);
+            float volumeModifier,
+            float dutyCycle
+        );
     }
 }

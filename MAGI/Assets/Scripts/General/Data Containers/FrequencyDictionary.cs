@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,7 +52,6 @@ namespace General.Data_Containers
                 noteValue += (int) Notes.B;
                 octaveValue--;
             }
-            
             
             return $"{((Notes)noteValue).ToFormattedString()}{octaveValue}";
         }

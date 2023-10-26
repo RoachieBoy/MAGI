@@ -6,16 +6,16 @@
     public enum Notes
     {
         C = 1,
-        Cs_Db,
-        D,
-        Ds_Eb,
-        E,
-        F,
-        Fs_Gb,
-        G,
-        Gs_Ab,
-        A,
-        As_Bb,
-        B
+        Cs_Db = 2,
+        D = 3,
+        Ds_Eb = 4,
+        E = 5,
+        F = 6,
+        Fs_Gb = 7,
+        G = 8,
+        Gs_Ab = 9,
+        A = 10,
+        As_Bb = 11,
+        B  = 12
     }
 }

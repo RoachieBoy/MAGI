@@ -3287,7 +3287,7 @@ MonoBehaviour:
       m_Calls: []
   amplitude: 0.709
   defaultSynth: {fileID: 11400000, guid: b890bb741f5ad9649933109a5fe37274, type: 2}
-  frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
+  frequencyDictionary: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
   pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
   attackTime: 0.9
   activeSynthDebug: {fileID: 0}

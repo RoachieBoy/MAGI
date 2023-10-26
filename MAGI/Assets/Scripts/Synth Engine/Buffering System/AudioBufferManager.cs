@@ -39,21 +39,21 @@ namespace Synth_Engine.Buffering_System
         /// <summary>
         ///   Initializes the preload buffer storage based on a given frequency table.
         /// </summary>
-        /// <param name="frequencyTable"> the frequency table scriptable object to use </param>
-        public static void InitializePreloadBuffers(FrequencyTable frequencyTable)
+        /// <param name="frequencyDictionary"> the frequency table scriptable object to use </param>
+        public static void InitializePreloadBuffers(FrequencyDictionary frequencyDictionary)
         {
-            _preloadAudioBuffers = new ConcurrentDictionary<float, AudioPreBuffer>(1, frequencyTable.Count);
+            _preloadAudioBuffers = new ConcurrentDictionary<float, AudioPreBuffer>(1, frequencyDictionary.Count);
         }
 
         public static void FillPreloadAudioBuffers(
-            FrequencyTable frequencyTable,
+            FrequencyDictionary frequencyDictionary,
             float attackTime,
             Func<float, float, float, SampleState> generator,
             float amplitude
         )
         {
             FillPreloadAudioBuffers(
-                frequencyTable,
+                frequencyDictionary,
                 attackTime,
                 generator,
                 generator,
@@ -63,7 +63,7 @@ namespace Synth_Engine.Buffering_System
         }
 
         private static void FillPreloadAudioBuffers(
-            FrequencyTable frequencyTable,
+            FrequencyDictionary frequencyDictionary,
             float attackTime,
             Func<float, float, float, SampleState> leftGenerator,
             Func<float, float, float, SampleState> rightGenerator,
@@ -71,7 +71,7 @@ namespace Synth_Engine.Buffering_System
             float rightAmplitude
         )
         {
-            Parallel.ForEach(frequencyTable, frequency =>
+            Parallel.ForEach(frequencyDictionary, frequency =>
             {
                 var stereoBuffer = new StereoData[StereoBufferSize];
                 var phaseLeft = 0f;

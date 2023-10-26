@@ -7,6 +7,7 @@ using Synth_Engine.Modules;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Utilities.Custom_Event_Types;
 
 namespace Synth_Engine
@@ -17,7 +18,7 @@ namespace Synth_Engine
         private const int SemiTones = 12;
 
         private float _frequency;
-        private int _octaveShift;
+        private int _frequencyIndex;
 
         public StringUnityEvent onNoteChanged; 
 
@@ -30,8 +31,10 @@ namespace Synth_Engine
         [Header("Default Synth")] 
         [SerializeField] private SynthModule defaultSynth;
 
+        [FormerlySerializedAs("frequencyTable")]
+        [FormerlySerializedAs("frequencyTableBroken")]
         [Header("Feed me important objects!")] 
-        [SerializeField] private FrequencyTable frequencyTable;
+        [SerializeField] private FrequencyDictionary frequencyDictionary;
         [SerializeField] private KeyTable pianoKeyTable;
 
         [Header("ADSR Values (envelope)")] 
@@ -54,7 +57,7 @@ namespace Synth_Engine
             {
                 // fill the audio buffers with the new synth module 
                 AudioBufferManager.FillPreloadAudioBuffers(
-                    frequencyTable,
+                    frequencyDictionary,
                     attackTime,
                     value.GenerateSample,
                     Amplitude
@@ -101,7 +104,7 @@ namespace Synth_Engine
             {
                 // fill the audio buffers with the new amplitude value
                 AudioBufferManager.FillPreloadAudioBuffers(
-                    frequencyTable,
+                    frequencyDictionary,
                     attackTime,
                     ActiveSynth.GenerateSample,
                     value
@@ -129,13 +132,14 @@ namespace Synth_Engine
         public void ShiftOctaveUp()
         {
             // check that index can be moved 
-            if (_octaveShift + SemiTones > frequencyTable.Count - pianoKeyTable.Count) return;
+            if (_frequencyIndex + SemiTones > frequencyDictionary.Count - pianoKeyTable.Count) 
+                return;
 
             // Move base index twelve semitones
-            _octaveShift += SemiTones;
+            _frequencyIndex += SemiTones;
 
             // update immediately to the new frequency
-            Frequency = frequencyTable[_octaveShift];
+            Frequency = frequencyDictionary.Keys.ElementAt(_frequencyIndex);
 
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
@@ -147,13 +151,13 @@ namespace Synth_Engine
         public void ShiftOctaveDown()
         {
             // check that index can be moved 
-            if (_octaveShift - SemiTones < 0) return;
+            if (_frequencyIndex - SemiTones < 0) return;
 
             // Move base index twelve semitones
-            _octaveShift -= SemiTones;
+            _frequencyIndex -= SemiTones;
 
             // update immediately to the new frequency
-            Frequency = frequencyTable[_octaveShift];
+            Frequency = frequencyDictionary.Keys.ElementAt(_frequencyIndex);
 
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
@@ -165,13 +169,13 @@ namespace Synth_Engine
 
         private void Start()
         {
-            _octaveShift = frequencyTable.BaseKeyNumber - pianoKeyTable.Count - 1; 
+            _frequencyIndex = (int) (frequencyDictionary.BaseKeyNumber - frequencyDictionary.BaseNote); 
 
             CreateInputActionMap();
             MapKeyToFrequencies();
             MapOctaveKeys();
 
-            AudioBufferManager.InitializePreloadBuffers(frequencyTable);
+            AudioBufferManager.InitializePreloadBuffers(frequencyDictionary);
 
             // Set the default synth
             ActiveSynth = defaultSynth;
@@ -243,13 +247,14 @@ namespace Synth_Engine
                 var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
 
                 // Get the frequency of the key 
-                var frequency = frequencyTable[_octaveShift + i];
+                var frequency = frequencyDictionary.Keys.ElementAt(i + _frequencyIndex);
                 
-                //var note = frequencyTable.GetNoteFromFrequency(frequency);
+                var note = frequencyDictionary[frequency];
                 
                 action.started += _ =>
                 {
                      Frequency = frequency;
+                     Note = note;
                 };
             }
         }

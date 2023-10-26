@@ -5,11 +5,7 @@ namespace Synth_Engine.Native
 {
     public static class SynthesizerNative
     {
-#if UNITY_STANDALONE_WIN
-        private const string DllName = "synthesizer_native.dll";
-#else
-        private const string DllName = "synthesizer_native.dylib";
-#endif
+        private const string DllName = "synthesizer_native";
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern SampleState generate_sine_sample(float frequency, float amplitude, float initialPhase,

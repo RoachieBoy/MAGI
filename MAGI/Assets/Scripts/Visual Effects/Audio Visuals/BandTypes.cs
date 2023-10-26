@@ -1,4 +1,4 @@
-﻿namespace Visual_Effects.Audio_Visuals_New
+﻿namespace Visual_Effects.Audio_Visuals
 {
     /// <summary>
     ///   The different types of bands that can be used for the frequency analyser.

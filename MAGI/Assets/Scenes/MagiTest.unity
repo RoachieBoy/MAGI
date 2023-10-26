@@ -137,7 +137,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 98336388}
-  - component: {fileID: 98336389}
   - component: {fileID: 98336391}
   - component: {fileID: 98336390}
   m_Layer: 0
@@ -156,27 +155,13 @@ Transform:
   m_GameObject: {fileID: 98336387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6413, y: 0.6217, z: 1590.9811}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -1.642, y: 0.616, z: 1590.9811}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1704646158}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &98336389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98336387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e390214ba21ec458bf6c9d0c97eaec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 343
-  randomDirection: 1
 --- !u!212 &98336390
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -218,12 +203,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: aae5034aa72d5824f809ecfa1008718a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6e213a34ac088341b5623c6c37c8992, type: 3}
   m_Color: {r: 0.9811321, g: 0.4202207, b: 0.942888, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.4, y: 1.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -689,7 +674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &500661501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3213,6 +3198,58 @@ MonoBehaviour:
   textEffectType: 0
   sinMovementSpeed: 4
   sinWaveSpeed: 5
+--- !u!1 &1643290481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1643290483}
+  - component: {fileID: 1643290484}
+  m_Layer: 0
+  m_Name: Musical Bars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1643290483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643290481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.97, y: 3.89, z: -0.17243972}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1643290484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643290481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1cc2b69d6984039a33a845d7fe48264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequencyAnalyser: {fileID: 1657789306}
+  frequencyBandCount: 64
+  maxScaleY: 5
+  growingSpeed: 10
+  shrinkingSpeed: 3
+  barPrefab: {fileID: 8106714347186798019, guid: 2265158ffab7ed4418d207a395cdc188, type: 3}
+  numberOfBars: 20
+  spacing: 0.65
 --- !u!1 &1657789298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3590,7 +3627,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1e7499f0d94c76c4eb5e682c613122d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3611,39 +3648,39 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Time: 0.1
+  m_Time: 0.2
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.20180431
+    widthMultiplier: 0.56543374
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.81889725
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1.4979297
+        outSlope: -1.4979297
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0.9362135, a: 1}
-      key1: {r: 1, g: 0.65471697, b: 0.9783352, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 1}
       key2: {r: 1, g: 0.654902, b: 0.97647065, a: 0}
       key3: {r: 1, g: 0.65471697, b: 0.9783352, a: 0}
       key4: {r: 0.75751734, g: 0, b: 1, a: 0}
@@ -3673,11 +3710,11 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 1
-    textureMode: 0
+    textureMode: 3
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.1
+  m_MinVertexDistance: 0.4
   m_MaskInteraction: 0
   m_Autodestruct: 0
   m_Emitting: 1
@@ -5828,3 +5865,4 @@ SceneRoots:
   - {fileID: 1657789301}
   - {fileID: 98336388}
   - {fileID: 500661503}
+  - {fileID: 1643290483}

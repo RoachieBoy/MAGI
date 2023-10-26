@@ -1,12 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Visual_Effects.Audio_Visuals_New
+namespace Visual_Effects.Audio_Visuals
 {
     [RequireComponent(typeof(AudioSource))]
     public class FrequencyAnalyser: MonoBehaviour
     {
-        // represents the number of samples per second
         private const int FrequencyBins64 = 64;
         private const int FrequencyBins8 = 8;
         private const int BinAmounts = 512;
@@ -73,7 +71,8 @@ namespace Visual_Effects.Audio_Visuals_New
                     if (i != value) continue;
                     
                     power++;
-                    sampleCount = (int)Mathf.Pow(2, power);
+                    
+                    sampleCount = (int) Mathf.Pow(2, power);
                     
                     if (power == 3) sampleCount -= 2;
                 }
@@ -101,10 +100,7 @@ namespace Visual_Effects.Audio_Visuals_New
             {
                 var average = 0f;
                 var sampleCount = (int)Mathf.Pow(2, i) * 2;
-                
-                // When we reach the last frequency band, we need to add 2 samples to the sample count
-                // this is because the last frequency band is 22000 - 22050 hz which is outside the
-                // range of human hearing
+
                 if (i == FrequencyBins8 - 1) sampleCount += 2;
                 
                 for (var j = 0; j < sampleCount; j++)

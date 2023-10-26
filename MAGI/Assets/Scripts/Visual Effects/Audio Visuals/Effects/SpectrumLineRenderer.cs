@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Visual_Effects.Audio_Visuals_New
+namespace Visual_Effects.Audio_Visuals.Effects
 {
     [RequireComponent(typeof(LineRenderer))]
     public class SpectrumLineRenderer: MonoBehaviour

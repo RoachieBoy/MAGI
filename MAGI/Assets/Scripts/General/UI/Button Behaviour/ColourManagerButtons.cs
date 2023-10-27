@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace General.UI.Buttons
+namespace General.UI.Button_Behaviour
 {
     public class ColourManagerButtons : MonoBehaviour
     {

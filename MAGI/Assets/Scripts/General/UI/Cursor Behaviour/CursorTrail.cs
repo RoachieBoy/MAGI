@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace General.UI
+namespace General.UI.Cursor_Behaviour
 {
     [RequireComponent(typeof(TrailRenderer))]
     public class CursorTrail : MonoBehaviour
@@ -20,9 +20,10 @@ namespace General.UI
             _mainCamera = Camera.main;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var mousePosition = Input.mousePosition;
+            
             // arbitrary z value
             mousePosition.z = Z;
 

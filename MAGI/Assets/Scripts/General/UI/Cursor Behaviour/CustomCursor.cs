@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace General.UI
+namespace General.UI.Cursor_Behaviour
 {
     public class CustomCursor: MonoBehaviour
     {

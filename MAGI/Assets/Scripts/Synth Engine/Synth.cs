@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using Utilities;
 using Utilities.Custom_Event_Types;
 
 namespace Synth_Engine

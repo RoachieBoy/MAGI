@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using UnityEngine.InputSystem;
 
-namespace General
+namespace Utilities
 {
     public static class InputActionMapsHelper
     {

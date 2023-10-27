@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Utilities.Sound;
 
-namespace General.UI
+namespace General.UI.Button_Behaviour
 {
     [RequireComponent(typeof(AudioSource), typeof(Button))]
     public class PlaySound: MonoBehaviour

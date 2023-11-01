@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
 {
@@ -25,7 +24,7 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
         private LineRenderer _line;
         private float _spacing;
 
-        private void Start()
+        public override void InitializeEffect()
         {
             _line = GetComponent<LineRenderer>();
             
@@ -35,7 +34,7 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
             
             _spacing = lineLength / _line.positionCount;
         }
-        
+
         public override void ApplyEffect()
         {
             for (var i = 0; i < _line.positionCount; i++)

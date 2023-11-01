@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Visual_Effects.Audio_Visuals.Effects
+namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
 {
     public class RetroAudioBars : MonoBehaviour
     {

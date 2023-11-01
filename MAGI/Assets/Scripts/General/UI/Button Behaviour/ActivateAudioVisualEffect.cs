@@ -20,11 +20,7 @@ namespace General.UI.Button_Behaviour
         private void Awake()
         {
             _button = GetComponent<Button>();
-            
-            _button.onClick.AddListener(() =>
-            {
-                applyEffectEvent.Invoke(effect);
-            });
+            _button.onClick.AddListener(() => { applyEffectEvent.Invoke(effect); });
         }
         
         private void OnDestroy()

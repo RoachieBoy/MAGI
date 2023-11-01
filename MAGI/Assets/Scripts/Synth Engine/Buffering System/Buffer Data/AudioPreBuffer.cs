@@ -12,7 +12,7 @@ namespace Synth_Engine.Buffering_System.Buffer_Data
         public float AttackTime;
 
         /// <summary>
-        ///  Creates a new AudioPreBuffer object with the given parameters
+        ///     Creates a new AudioPreBuffer object with the given parameters
         /// </summary>
         /// <param name="audioStereoBuffer"> audio stereo buffer to use </param>
         /// <param name="finalPhase"> what is the final phase of the generated sample </param>

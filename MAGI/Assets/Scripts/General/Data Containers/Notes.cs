@@ -1,7 +1,7 @@
 ﻿namespace General.Data_Containers
 {
     /// <summary>
-    ///  Represents the 12 notes in an octave starting from C
+    ///     Represents the 12 notes in an octave starting from C
     /// </summary>
     public enum Notes
     {
@@ -16,6 +16,6 @@
         Gs_Ab = 9,
         A = 10,
         As_Bb = 11,
-        B  = 12
+        B = 12
     }
 }

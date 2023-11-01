@@ -2,12 +2,12 @@
 
 namespace Utilities.Tools
 {
-    public class RepeatObject: MonoBehaviour
+    public class RepeatObject : MonoBehaviour
     {
         [SerializeField] private GameObject original;
         [Range(1, 50)] [SerializeField] private int amountOfObjects = 1;
         [SerializeField] private Vector2 offset;
-        
+
         public void Start()
         {
             CorrectChildCount();
@@ -26,22 +26,20 @@ namespace Utilities.Tools
                 var numberInRow = transform.childCount;
                 var position = transform.position + new Vector3(numberInRow * offset.x,
                     numberInRow * offset.y, 0);
-                
+
                 Instantiate(original, position, Quaternion.identity, transform);
             }
         }
 
         private void DespawnChildren()
         {
-            while(transform.childCount > amountOfObjects)
-            {
+            while (transform.childCount > amountOfObjects)
                 DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
-            }
         }
 
         public void RepositionChildren()
         {
-            for( var i = 0; i < transform.childCount; i++)
+            for (var i = 0; i < transform.childCount; i++)
             {
                 var position = transform.position + new Vector3(i * offset.x, i * offset.y, 0);
                 transform.GetChild(i).transform.position = position;

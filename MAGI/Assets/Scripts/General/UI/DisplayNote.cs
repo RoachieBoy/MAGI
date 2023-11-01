@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace General.UI
 {
-    public class DisplayNote: MonoBehaviour
+    public class DisplayNote : MonoBehaviour
     {
         [SerializeField] private Synth synth;
-        
+
         private TMP_Text _note;
 
         private void Awake()
@@ -19,7 +19,7 @@ namespace General.UI
         {
             synth.onNoteChanged.AddListener(SetNoteText);
         }
-        
+
         private void OnDisable()
         {
             synth.onNoteChanged.RemoveListener(SetNoteText);

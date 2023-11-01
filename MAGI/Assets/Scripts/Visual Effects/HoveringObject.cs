@@ -9,9 +9,9 @@ namespace Visual_Effects
         [SerializeField] private float maxHoverHeight = 3.0f;
         [SerializeField] private float minHoverSpeed = 1.0f;
         [SerializeField] private float maxHoverSpeed = 2.0f;
-        
-        [Header("What game object am I linked to?")]
-        [SerializeField] private Synth synth;
+
+        [Header("What game object am I linked to?")] [SerializeField]
+        private Synth synth;
 
         private Vector3 _initialPosition;
         private float _randomHeight;
@@ -26,16 +26,12 @@ namespace Visual_Effects
         private void FixedUpdate()
         {
             if (synth.IsPlaying)
-            {
-                transform.position = _initialPosition + new Vector3(0, 
+                transform.position = _initialPosition + new Vector3(0,
                     Mathf.Sin(Time.time * _randomSpeed) * _randomHeight, 0);
-            }
-            
+
             // reset the original transform position if the synth is not playing
             else
-            {
                 transform.position = _initialPosition;
-            }
         }
 
         private void RandomizeParameters()

@@ -8,7 +8,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     public class Pulse : SynthModule
     {
         [SerializeField] private float dutyCycle = 0.25f;
-        [SerializeField, Range(0f, 0.8f)] private float volumeModifier = 1f;
+        [SerializeField] [Range(0f, 0.8f)] private float volumeModifier = 1f;
 
         protected override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {

@@ -10,28 +10,29 @@ namespace General.UI.Button_Behaviour
     [RequireComponent(typeof(Button), typeof(AudioSource))]
     public class ActivateModuleButton : MonoBehaviour
     {
-        private Button _button;
-        private SynthModule _synthModule;
-        private AudioSource _audioSource;
-        
-        [Header("Feed me a module")]
+        [Header("Feed me a module")] 
         [SerializeField] private SynthModule synthModule;
-        
-        [Header("Feed me an effect")]
+
+        [Header("Feed me an effect")] 
         [SerializeField] private AudioMixerGroup audioMixerGroup;
 
-        [Header("Where do I need to apply this effect and module?")]
+        [Header("Where do I need to apply this effect and module?")] 
         [SerializeField] private AudioMixerGroupUnityEvent audioMixerGroupUnityEvent;
+
         [SerializeField] private SynthModuleUnityEvent synthModuleUnityEvent;
-        
-        [Header("What sound do I make when I'm clicked?")]
+
+        [Header("What sound do I make when I'm clicked?")] 
         [SerializeField] private AudioEvent audioEvent;
-        
+
+        private AudioSource _audioSource;
+        private Button _button;
+        private SynthModule _synthModule;
+
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
             _button = GetComponent<Button>();
-            
+
             _button.onClick.AddListener(() =>
             {
                 synthModuleUnityEvent.Invoke(synthModule);
@@ -39,7 +40,7 @@ namespace General.UI.Button_Behaviour
                 audioEvent.Play(_audioSource);
             });
         }
-        
+
         private void OnDestroy()
         {
             _button.onClick.RemoveAllListeners();

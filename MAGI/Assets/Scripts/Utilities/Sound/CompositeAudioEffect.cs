@@ -5,21 +5,14 @@ using Random = UnityEngine.Random;
 namespace Utilities.Sound
 {
     [CreateAssetMenu(menuName = "Utilities/Sound/Composite Audio Event", fileName = "CompositeAudioEffect")]
-    public class CompositeAudioEffect: AudioEvent
+    public class CompositeAudioEffect : AudioEvent
     {
-        [Serializable]
-        public struct CompositeEntry
-        {
-            public AudioEvent aEvent;
-            public float weight;
-        }
-        
         [SerializeField] private CompositeEntry[] entries;
-        
+
         public override void Play(AudioSource source)
         {
             float totalWeight = 0;
-            
+
             for (var i = 0; i < entries.Length; ++i)
                 totalWeight += entries[i].weight;
 
@@ -36,6 +29,13 @@ namespace Utilities.Sound
                 entries[i].aEvent.Play(source);
                 return;
             }
+        }
+
+        [Serializable]
+        public struct CompositeEntry
+        {
+            public AudioEvent aEvent;
+            public float weight;
         }
     }
 }

@@ -1,41 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace Visual_Effects.Audio_Visuals.Effects
+namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class SpectrumLineRenderer : MonoBehaviour
+    public class SpectrumLine: AudioVisualEffect
     {
         private const float MinimumYPosition = 0.01f;
-
-        [Header("Analyser Settings")] 
-        [SerializeField] private FrequencyAnalyser frequencyAnalyser;
-
+        
+        [Header("Analyser Settings")]
         [SerializeField] private BandTypes frequencyBandCount;
-
+        [SerializeField] private FrequencyAnalyser frequencyAnalyser;
+        
         [Header("Line Settings")] 
         [Range(1f, 25f)] 
         [SerializeField] private float lineLength = 2;
 
-        [Range(1f, 20f)] [SerializeField] private float strength = 1;
+        [Range(1f, 20f)] 
+        [SerializeField] private float strength = 1;
 
-        [Range(0, 20f)] [SerializeField] private float smoothRate = 1;
-
+        [Range(0, 20f)] 
+        [SerializeField] private float smoothRate = 1;
+        
         private LineRenderer _line;
-
-        private float _spacing = .2f;
+        private float _spacing;
 
         private void Start()
         {
-            _line = gameObject.GetComponent<LineRenderer>();
-
+            _line = GetComponent<LineRenderer>();
+            
             _line.positionCount = frequencyBandCount == BandTypes.Eight
                 ? (int) BandTypes.Eight
                 : (int) BandTypes.SixtyFour;
-
+            
             _spacing = lineLength / _line.positionCount;
         }
-
-        private void FixedUpdate()
+        
+        public override void ApplyEffect()
         {
             for (var i = 0; i < _line.positionCount; i++)
             {

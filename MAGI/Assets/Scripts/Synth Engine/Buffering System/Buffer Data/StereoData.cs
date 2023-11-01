@@ -7,10 +7,10 @@ namespace Synth_Engine.Buffering_System.Buffer_Data
     {
         public float LeftChannel;
         public float RightChannel;
-        
+
         /// <summary>
-        /// Creates a new StereoData object with the given left and right channel values.
-        /// Only to be used when the left and right channels are different.
+        ///     Creates a new StereoData object with the given left and right channel values.
+        ///     Only to be used when the left and right channels are different.
         /// </summary>
         /// <param name="leftChannel"> left channel data </param>
         /// <param name="rightChannel"> right channel data </param>
@@ -19,10 +19,10 @@ namespace Synth_Engine.Buffering_System.Buffer_Data
             LeftChannel = leftChannel;
             RightChannel = rightChannel;
         }
-        
+
         /// <summary>
-        /// Creates a new StereoData object with the given mono value.
-        /// Only to be used when the left and right channels are the same.
+        ///     Creates a new StereoData object with the given mono value.
+        ///     Only to be used when the left and right channels are the same.
         /// </summary>
         /// <param name="mono"> mono channel data </param>
         public StereoData(float mono)

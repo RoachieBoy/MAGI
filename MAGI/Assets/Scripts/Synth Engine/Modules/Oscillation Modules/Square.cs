@@ -7,7 +7,7 @@ namespace Synth_Engine.Modules.Oscillation_Modules
     [CreateAssetMenu(fileName = "SquareWave", menuName = "SynthModules/Oscillation/Square")]
     public class Square : SynthModule
     {
-        [SerializeField, Range(0f, 0.8f)] private float volumeModifier;
+        [SerializeField] [Range(0f, 0.8f)] private float volumeModifier;
 
         protected override SampleState GenerateSample(float frequency, float amplitude, float initialPhase)
         {

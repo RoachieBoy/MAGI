@@ -5,11 +5,12 @@ namespace General.UI.Cursor_Behaviour
     [RequireComponent(typeof(TrailRenderer))]
     public class CursorTrail : MonoBehaviour
     {
+        private const float Z = 10f;
+
+        private Camera _mainCamera;
+
         // Get mouse cursor and make trail follow it
         private TrailRenderer _trailRenderer;
-        private Camera _mainCamera;
-        
-        private const float Z = 10f;
 
         private void Start()
         {
@@ -23,7 +24,7 @@ namespace General.UI.Cursor_Behaviour
         private void FixedUpdate()
         {
             var mousePosition = Input.mousePosition;
-            
+
             // arbitrary z value
             mousePosition.z = Z;
 

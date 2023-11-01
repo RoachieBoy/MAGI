@@ -9,7 +9,7 @@ namespace Synth_Engine.Buffering_System.Buffer_Data
         public readonly float Phase;
 
         /// <summary>
-        ///  Creates a new SampleState object with the given sample and phase.
+        ///     Creates a new SampleState object with the given sample and phase.
         /// </summary>
         /// <param name="sample"> generated audio sample </param>
         /// <param name="updatedPhase"> next phase of the sample </param>

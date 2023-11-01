@@ -29,17 +29,11 @@ namespace Utilities.Sound
 
             EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
 
-            if (GUILayout.Button("Preview"))
-            {
-                ((AudioEvent)target).Play(preview);
-            }
+            if (GUILayout.Button("Preview")) ((AudioEvent) target).Play(preview);
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Stop"))
-            {
-                preview.Stop();
-            }
+            if (GUILayout.Button("Stop")) preview.Stop();
 
             EditorGUI.EndDisabledGroup();
         }

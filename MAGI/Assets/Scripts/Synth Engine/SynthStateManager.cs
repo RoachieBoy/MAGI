@@ -1,5 +1,4 @@
-﻿using General;
-using General.Data_Containers;
+﻿using General.Data_Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -7,16 +6,18 @@ using Utilities.Custom_Event_Types;
 
 namespace Synth_Engine
 {
-    public class SynthStateManager: MonoBehaviour
-    {   
-        [Header("General Settings")]
-        [SerializeField] private KeyTable pianoKeyTable;
+    public class SynthStateManager : MonoBehaviour
+    {
+        [Header("General Settings")] [SerializeField]
+        private KeyTable pianoKeyTable;
+
         [SerializeField] private BoolUnityEvent isPlaying;
 
-        [Header("Debugging viewer")] 
+        [Header("Debugging viewer")]
         [SerializeField] private int keysPressed;
-        [SerializeField] private InputActionMap inputActionMap = new(); 
-        
+
+        [SerializeField] private InputActionMap inputActionMap = new();
+
         private int KeysPressed
         {
             get => keysPressed;
@@ -26,7 +27,7 @@ namespace Synth_Engine
                 isPlaying.Invoke(value > 0);
             }
         }
-        
+
         private void Start()
         {
             MapKeys();
@@ -38,7 +39,7 @@ namespace Synth_Engine
         }
 
         /// <summary>
-        ///  Maps the keys to the input action map with the correct bindings.
+        ///     Maps the keys to the input action map with the correct bindings.
         /// </summary>
         private void MapKeys()
         {
@@ -46,11 +47,11 @@ namespace Synth_Engine
             {
                 var action = InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap,
                     key.ToString().ToLower());
-                
+
                 action.started += _ => { KeysPressed++; };
                 action.canceled += _ => { KeysPressed--; };
             }
-            
+
             inputActionMap.Enable();
         }
     }

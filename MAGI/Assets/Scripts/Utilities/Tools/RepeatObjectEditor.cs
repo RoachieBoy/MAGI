@@ -2,13 +2,13 @@
 
 namespace Utilities.Tools
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [CustomEditor(typeof(RepeatObject))]
     public class RepeatObjectEditor : Editor
     {
-        private RepeatObject _repeatObject;
         private SerializedProperty _amountOfObjects;
         private SerializedProperty _offset;
+        private RepeatObject _repeatObject;
 
         private void Awake()
         {

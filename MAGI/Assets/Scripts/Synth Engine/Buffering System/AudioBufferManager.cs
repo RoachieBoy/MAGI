@@ -37,7 +37,7 @@ namespace Synth_Engine.Buffering_System
         #region Preload Buffers
 
         /// <summary>
-        ///   Initializes the preload buffer storage based on a given frequency table.
+        ///     Initializes the preload buffer storage based on a given frequency table.
         /// </summary>
         /// <param name="frequencyDictionary"> the frequency table scriptable object to use </param>
         public static void InitializePreloadBuffers(FrequencyDictionary frequencyDictionary)
@@ -76,7 +76,7 @@ namespace Synth_Engine.Buffering_System
                 var stereoBuffer = new StereoData[StereoBufferSize];
                 var phaseLeft = 0f;
                 var phaseRight = 0f;
-                
+
                 _preloadAudioBuffers[frequency.Key] = GenerateAudioPreBuffer(
                     frequency.Key, attackTime, stereoBuffer,
                     ref phaseLeft, ref phaseRight,
@@ -137,8 +137,8 @@ namespace Synth_Engine.Buffering_System
         }
 
         /// <summary>
-        ///  Fills the preload audio buffers using a given generator and amplitude.
-        ///  Can be used to generate a mono buffer (left and right channels are the same).
+        ///     Fills the preload audio buffers using a given generator and amplitude.
+        ///     Can be used to generate a mono buffer (left and right channels are the same).
         /// </summary>
         /// <param name="frequency"></param>
         public static void SetPreloadAudioBuffer(float frequency)
@@ -158,7 +158,7 @@ namespace Synth_Engine.Buffering_System
         #region Audio Buffer Generation
 
         /// <summary>
-        ///  Fills the next audio buffer using a given generator and amplitude and frequency.
+        ///     Fills the next audio buffer using a given generator and amplitude and frequency.
         /// </summary>
         /// <param name="generator"> the generator of the audio </param>
         /// <param name="frequency"> the frequency of the given audio </param>
@@ -175,7 +175,7 @@ namespace Synth_Engine.Buffering_System
         }
 
         /// <summary>
-        /// Fills the next audio buffer for both left and right channels using provided generators and amplitudes.
+        ///     Fills the next audio buffer for both left and right channels using provided generators and amplitudes.
         /// </summary>
         private static void FillNextAudioBuffer(
             float frequency,
@@ -204,7 +204,7 @@ namespace Synth_Engine.Buffering_System
                 var right = generatorRight(frequency, _currentAmplitude.RightChannel, _currentPhase.RightChannel);
 
                 StereoAudioBuffer[i] = new StereoData(left.Sample, right.Sample);
-                
+
                 _currentPhase = new StereoData(left.Phase, right.Phase);
             }
 
@@ -213,21 +213,19 @@ namespace Synth_Engine.Buffering_System
         }
 
         /// <summary>
-        /// Gets the current audio buffer.
+        ///     Gets the current audio buffer.
         /// </summary>
         /// <param name="bufferOut">Array to copy current audio buffer data to.</param>
         public static void GetAudioBuffer(float[] bufferOut)
         {
             if (bufferOut is not {Length: MonoBufferSize})
-            {
                 throw new ArgumentException("Invalid buffer provided.", nameof(bufferOut));
-            }
 
             CopyAudioBuffer(CurrentAudioBuffer, bufferOut);
         }
 
         /// <summary>
-        /// Switches the audio buffers, making the next audio buffer the current one.
+        ///     Switches the audio buffers, making the next audio buffer the current one.
         /// </summary>
         public static void SwitchAudioBuffers()
         {
@@ -235,7 +233,7 @@ namespace Synth_Engine.Buffering_System
         }
 
         /// <summary>
-        /// Copies audio data from source to destination buffer.
+        ///     Copies audio data from source to destination buffer.
         /// </summary>
         private static void CopyAudioBuffer(float[] source, float[] destination)
         {

@@ -9,8 +9,6 @@ namespace General.Data_Containers
     {
         private const float TwelfthRootOfTwo = 1.059463094359f;
 
-        private Dictionary<float, string> _frequencies;
-
         [Header("Frequency Settings")] [SerializeField]
         private int numKeys = 88;
 
@@ -22,19 +20,56 @@ namespace General.Data_Containers
 
         [SerializeField] private int baseOctave = 4;
 
-        #region Public Properties
-        
-        public int BaseKeyNumber => baseKeyNumber;
-        public Notes BaseNote => baseNote;
-        public string this[float key] => _frequencies[key];
-        public IEnumerable<float> Keys => _frequencies.Keys;
-        public IEnumerable<string> Values => _frequencies.Values;
-        public int Count => _frequencies.Count;
+        private Dictionary<float, string> _frequencies;
 
-        #endregion
+        private void OnEnable()
+        {
+            BuildDictionary();
+        }
+
+        private void OnValidate()
+        {
+            BuildDictionary();
+        }
 
         /// <summary>
-        ///   Calculates the frequency based on the key number and the base frequency
+        ///     Returns an enumerator that iterates through the collection
+        /// </summary>
+        public IEnumerator<KeyValuePair<float, string>> GetEnumerator()
+        {
+            return _frequencies.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Checks if the dictionary contains the given frequency
+        /// </summary>
+        /// <param name="key"> what key are you looking for? </param>
+        public bool ContainsKey(float key)
+        {
+            return _frequencies.ContainsKey(key);
+        }
+
+        /// <summary>
+        ///     Tries to get the value of the frequency, returns false if it doesn't exist
+        /// </summary>
+        /// <param name="key"> the current frequency </param>
+        /// <param name="value"> the value of the frequency (either it exists or it doesn't) </param>
+        /// <returns> a boolean representing the state of the given frequency (existing or not ) </returns>
+        public bool TryGetValue(float key, out string value)
+        {
+            return _frequencies.TryGetValue(key, out value);
+        }
+
+        /// <summary>
+        ///     Calculates the frequency based on the key number and the base frequency
         /// </summary>
         /// <param name="keyNumber"> the current key being played (index) </param>
         /// <returns> the current frequency value represented as a float </returns>
@@ -48,7 +83,7 @@ namespace General.Data_Containers
         }
 
         /// <summary>
-        ///  Calculates the note based on the key number and the base note and octave
+        ///     Calculates the note based on the key number and the base note and octave
         /// </summary>
         /// <param name="keyNumber"> the currently played key (index) </param>
         /// <returns> a string representing a musical note </returns>
@@ -74,18 +109,8 @@ namespace General.Data_Containers
             return $"{((Notes) noteValue).ToFormattedString()}{octaveValue}";
         }
 
-        private void OnValidate()
-        {
-            BuildDictionary();
-        }
-
-        private void OnEnable()
-        {
-            BuildDictionary();
-        }
-
         /// <summary>
-        ///   Builds the dictionary of frequencies and notes based on the settings
+        ///     Builds the dictionary of frequencies and notes based on the settings
         /// </summary>
         private void BuildDictionary()
         {
@@ -100,40 +125,15 @@ namespace General.Data_Containers
             }
         }
 
-        /// <summary>
-        ///  Returns an enumerator that iterates through the collection
-        /// </summary>
-        public IEnumerator<KeyValuePair<float, string>> GetEnumerator()
-        {
-            return _frequencies.GetEnumerator();
-        }
+        #region Public Properties
 
-        /// <summary>
-        ///  Returns an enumerator that iterates through the collection
-        /// </summary>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public int BaseKeyNumber => baseKeyNumber;
+        public Notes BaseNote => baseNote;
+        public string this[float key] => _frequencies[key];
+        public IEnumerable<float> Keys => _frequencies.Keys;
+        public IEnumerable<string> Values => _frequencies.Values;
+        public int Count => _frequencies.Count;
 
-        /// <summary>
-        ///  Checks if the dictionary contains the given frequency
-        /// </summary>
-        /// <param name="key"> what key are you looking for? </param>
-        public bool ContainsKey(float key)
-        {
-            return _frequencies.ContainsKey(key);
-        }
-
-        /// <summary>
-        ///  Tries to get the value of the frequency, returns false if it doesn't exist
-        /// </summary>
-        /// <param name="key"> the current frequency </param>
-        /// <param name="value"> the value of the frequency (either it exists or it doesn't) </param>
-        /// <returns> a boolean representing the state of the given frequency (existing or not ) </returns>
-        public bool TryGetValue(float key, out string value)
-        {
-            return _frequencies.TryGetValue(key, out value);
-        }
+        #endregion
     }
 }

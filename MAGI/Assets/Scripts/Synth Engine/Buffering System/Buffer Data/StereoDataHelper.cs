@@ -5,7 +5,7 @@ namespace Synth_Engine.Buffering_System.Buffer_Data
     public static class StereoDataHelper
     {
         /// <summary>
-        ///  Copies the data from an array of StereoData to an array of floats.
+        ///     Copies the data from an array of StereoData to an array of floats.
         /// </summary>
         /// <param name="stereoData"> the stereo data to copy </param>
         /// <param name="outputData"> the output data of floats </param>

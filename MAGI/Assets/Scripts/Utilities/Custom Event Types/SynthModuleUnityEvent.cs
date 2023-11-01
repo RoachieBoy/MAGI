@@ -5,5 +5,7 @@ using UnityEngine.Events;
 namespace Utilities.Custom_Event_Types
 {
     [Serializable]
-    public class SynthModuleUnityEvent: UnityEvent<SynthModule> {}
+    public class SynthModuleUnityEvent : UnityEvent<SynthModule>
+    {
+    }
 }

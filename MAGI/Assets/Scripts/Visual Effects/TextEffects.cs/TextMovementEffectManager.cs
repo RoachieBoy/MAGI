@@ -7,7 +7,7 @@ namespace Visual_Effects.TextEffects.cs
     public static class TextMovementEffectManager
     {
         /// <summary>
-        ///  Move the text in a wobbly fashion using this function
+        ///     Move the text in a wobbly fashion using this function
         /// </summary>
         /// <param name="time"> the time step to use </param>
         /// <param name="sinMovementSpeed"> the movement speed of the wobble </param>
@@ -21,9 +21,9 @@ namespace Visual_Effects.TextEffects.cs
                 y = Mathf.Cos(time * sinWaveSpeed)
             };
         }
-        
+
         /// <summary>
-        ///  Move the characters in a wobbly fashion using this function
+        ///     Move the characters in a wobbly fashion using this function
         /// </summary>
         /// <param name="time"> time step of the function </param>
         /// <param name="textObject"> the text object to wobble </param>
@@ -34,24 +34,24 @@ namespace Visual_Effects.TextEffects.cs
             var mesh = textObject.mesh;
             var vertices = mesh.vertices;
             var textInfo = textObject.textInfo;
-            
-            foreach (var character in textInfo.characterInfo)    
+
+            foreach (var character in textInfo.characterInfo)
             {
                 var index = character.vertexIndex;
                 var offset = Wobble(time + index, sinMovementSpeed, sinWaveSpeed);
-                
+
                 vertices[index] += offset;
                 vertices[index + 1] += offset;
                 vertices[index + 2] += offset;
                 vertices[index + 3] += offset;
             }
-            
+
             mesh.vertices = vertices;
             textObject.canvasRenderer.SetMesh(mesh);
         }
 
         /// <summary>
-        ///  Move the vertices in a wobbly fashion using this function
+        ///     Move the vertices in a wobbly fashion using this function
         /// </summary>
         /// <param name="time"> the time step of the function </param>
         /// <param name="textObject"> the text object to wobble </param>
@@ -61,7 +61,7 @@ namespace Visual_Effects.TextEffects.cs
         {
             var mesh = textObject.mesh;
             var vertices = mesh.vertices;
-            
+
             for (var i = 0; i < vertices.Length; i++)
             {
                 var offset = Wobble(time + i, sinMovementSpeed, sinWaveSpeed);
@@ -69,12 +69,12 @@ namespace Visual_Effects.TextEffects.cs
                 vertices[i] += offset;
             }
 
-            mesh.vertices = vertices; 
+            mesh.vertices = vertices;
             textObject.canvasRenderer.SetMesh(mesh);
         }
-        
+
         /// <summary>
-        ///  Move the words in a wobbly fashion using this function
+        ///     Move the words in a wobbly fashion using this function
         /// </summary>
         /// <param name="time"> time step of the function </param>
         /// <param name="textObject"> text object to wobble </param>
@@ -84,23 +84,23 @@ namespace Visual_Effects.TextEffects.cs
         {
             var mesh = textObject.mesh;
             var text = textObject.text;
-            
+
             var wordLengths = new List<int>();
             var wordIndexes = new List<int> {0};
-            
+
             // get the indexes of the words
             for (var index = text.IndexOf(' '); index > -1; index = text.IndexOf(' ', index + 1))
             {
                 wordLengths.Add(index - wordIndexes[^1]);
                 wordIndexes.Add(index + 1);
             }
-            
+
             // add the last word to the list
             wordLengths.Add(text.Length - wordIndexes[^1]);
-            
+
             var vertices = mesh.vertices;
             var textInfo = textObject.textInfo;
-            var colors = mesh.colors; 
+            var colors = mesh.colors;
 
             for (var w = 0; w < wordIndexes.Count; w++)
             {
@@ -114,13 +114,13 @@ namespace Visual_Effects.TextEffects.cs
                     var index = c.vertexIndex;
 
                     vertices[index] += offset;
-                    
+
                     vertices[index + 1] += offset;
                     vertices[index + 2] += offset;
                     vertices[index + 3] += offset;
                 }
             }
-            
+
             mesh.colors = colors;
             mesh.vertices = vertices;
             textObject.canvasRenderer.SetMesh(mesh);

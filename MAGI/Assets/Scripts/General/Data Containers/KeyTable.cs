@@ -9,7 +9,7 @@ namespace General.Data_Containers
     public class KeyTable : ScriptableObject, IReadOnlyList<Key>
     {
         [SerializeField] private List<Key> keys;
-        
+
         public IEnumerator<Key> GetEnumerator()
         {
             return keys.GetEnumerator();

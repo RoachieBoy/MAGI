@@ -7,10 +7,6 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
     {
         private const float MinimumYPosition = 0.01f;
         
-        [Header("Analyser Settings")]
-        [SerializeField] private BandTypes frequencyBandCount;
-        [SerializeField] private FrequencyAnalyser frequencyAnalyser;
-        
         [Header("Line Settings")] 
         [Range(1f, 25f)] 
         [SerializeField] private float lineLength = 2;
@@ -28,7 +24,7 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
         {
             _line = GetComponent<LineRenderer>();
             
-            _line.positionCount = frequencyBandCount == BandTypes.Eight
+            _line.positionCount = FrequencyBandCount == BandTypes.Eight
                 ? (int) BandTypes.Eight
                 : (int) BandTypes.SixtyFour;
             
@@ -42,7 +38,7 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
                 var xPos = i * _spacing;
 
                 // Get the current y position from the audio data and scale it
-                var yPos = frequencyAnalyser.GetBandAmount(frequencyBandCount, i) * strength;
+                var yPos = FrequencyAnalyser.GetBandAmount(FrequencyBandCount, i) * strength;
 
                 // If there's no data, smoothly interpolate the y position to 0
                 if (yPos <= MinimumYPosition) yPos = Mathf.Lerp(_line.GetPosition(i).y, 0, Time.deltaTime * smoothRate);

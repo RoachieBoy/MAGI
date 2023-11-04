@@ -694,8 +694,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -628.39, y: 194}
-  m_SizeDelta: {x: 65.22, y: 58}
+  m_AnchoredPosition: {x: -558.83, y: 111.77}
+  m_SizeDelta: {x: 43.56, y: 42.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461583614
 MonoBehaviour:
@@ -792,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effect: {fileID: 500661504}
-  applyEffectEvent:
+  onEffectActivated:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2126871430}
@@ -1273,8 +1273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -628.39, y: 105}
-  m_SizeDelta: {x: 65.22, y: 58}
+  m_AnchoredPosition: {x: -558.83, y: 57.34}
+  m_SizeDelta: {x: 43.56, y: 42.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &593188583
 MonoBehaviour:
@@ -1288,8 +1288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c072a571c184b45b78a2e0171d68e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: {fileID: 0}
-  applyEffectEvent:
+  effect: {fileID: 1643290484}
+  onEffectActivated:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2126871430}
@@ -3574,7 +3574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 47, y: 68}
+  m_AnchoredPosition: {x: 106, y: 44}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475666197
@@ -3640,13 +3640,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequencyAnalyser: {fileID: 1657789306}
   frequencyBandCount: 64
-  maxScaleY: 5
-  growingSpeed: 4
-  shrinkingSpeed: 3
-  minimalScaleBack: 0.128
   barPrefab: {fileID: 8106714347186798019, guid: 2265158ffab7ed4418d207a395cdc188, type: 3}
-  numberOfBars: 50
-  spacing: 0.324
+  numberOfBars: 20
+  spacing: 0.62
+  growSpeed: 3
+  shrinkSpeed: 1.36
 --- !u!1 &1657789298
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,7 +4441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.018}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -64, y: -38}
+  m_AnchoredPosition: {x: -63.99994, y: -38}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1763104671
@@ -5355,7 +5353,7 @@ Transform:
   m_GameObject: {fileID: 2126871427}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6502428, y: -3.4313266, z: 25236.408}
+  m_LocalPosition: {x: 5.49, y: -4.62, z: 25236.408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5375,7 +5373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5dcbfa9697b45c68d8679a0406c08cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultEffect: {fileID: 1643290484}
+  defaultEffect: {fileID: 500661504}
+  effects:
+  - {fileID: 500661504}
+  - {fileID: 1643290484}
   activeEffect: {fileID: 0}
 --- !u!1001 &1526833734039331750
 PrefabInstance:

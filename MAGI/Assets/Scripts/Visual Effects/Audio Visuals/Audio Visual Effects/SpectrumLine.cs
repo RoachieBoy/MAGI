@@ -33,7 +33,7 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
             _spacing = lineLength / _line.positionCount;
         }
 
-        protected override void UpdateEffect()
+        private void FixedUpdate()
         {
             for (var i = 0; i < _line.positionCount; i++)
             {

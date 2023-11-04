@@ -20,18 +20,20 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
         private LineRenderer _line;
         private float _spacing;
 
-        public override void InitializeEffect()
+        private void Start()
         {
-            _line = GetComponent<LineRenderer>();
+            _line = gameObject.GetComponent<LineRenderer>();
             
+            // set the amount of points on the line to the amount of frequency bands 
             _line.positionCount = FrequencyBandCount == BandTypes.Eight
                 ? (int) BandTypes.Eight
                 : (int) BandTypes.SixtyFour;
             
+            // set the spacing between the points on the line
             _spacing = lineLength / _line.positionCount;
         }
 
-        public override void ApplyEffect()
+        protected override void UpdateEffect()
         {
             for (var i = 0; i < _line.positionCount; i++)
             {
@@ -39,14 +41,26 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
 
                 // Get the current y position from the audio data and scale it
                 var yPos = FrequencyAnalyser.GetBandAmount(FrequencyBandCount, i) * strength;
+                
+                var newYPos = Mathf.Lerp(_line.GetPosition(i).y, yPos, Time.deltaTime * smoothRate);
 
                 // If there's no data, smoothly interpolate the y position to 0
-                if (yPos <= MinimumYPosition) yPos = Mathf.Lerp(_line.GetPosition(i).y, 0, Time.deltaTime * smoothRate);
+                if (yPos <= MinimumYPosition) yPos = newYPos;
 
                 var pos = new Vector3(xPos, yPos, 0);
 
                 _line.SetPosition(i, pos);
             }
+        }
+
+        public override void DisableEffect()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public override void EnableEffect()
+        {
+            gameObject.SetActive(true);
         }
     }
 }

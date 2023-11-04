@@ -17,15 +17,26 @@ namespace Visual_Effects.Audio_Visuals
         ///  The amount of frequency bands that will be used to get the audio data.
         /// </summary>
         protected BandTypes FrequencyBandCount => frequencyBandCount;
-        
-        /// <summary>
-        ///   Initializes the effect by getting the component(s) it needs and setting up any variables it needs.
-        /// </summary>
-        public abstract void InitializeEffect();
-        
+
+        private void FixedUpdate()
+        {
+            UpdateEffect();
+        }
+
         /// <summary>
         ///  Applies the effect by getting the data it needs and applying it to the component(s) it needs.
         /// </summary>
-        public abstract void ApplyEffect();
+        protected abstract void UpdateEffect();
+        
+        /// <summary>
+        ///  Enables the effect by enabling the component(s) it needs.
+        /// </summary>
+        public abstract void EnableEffect();
+
+        /// <summary>
+        ///  Disables the effect by disabling the component(s) it needs.
+        /// </summary>
+        public abstract void DisableEffect(); 
+
     }
 }

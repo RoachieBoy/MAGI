@@ -11,21 +11,29 @@ namespace General.UI.Button_Behaviour
         [Header("feed me an effect")]
         [SerializeField] private AudioVisualEffect effect;
         
-        [Header("Where do I need to apply this effect?")] 
-        [SerializeField] private AudioVisualEffectUnityEvent applyEffectEvent;
+        [Header("Where do I need to activate this effect?")]
+        [SerializeField] private AudioVisualEffectUnityEvent onEffectActivated;
         
         private Button _button;
-        private AudioVisualEffect _effect;
         
         private void Awake()
         {
-            _button = GetComponent<Button>();
-            _button.onClick.AddListener(() => { applyEffectEvent.Invoke(effect); });
+            _button = gameObject.GetComponent<Button>();
         }
         
-        private void OnDestroy()
+        private void OnEnable()
+        {   
+            _button.onClick.AddListener(ActivateEffect);
+        }
+        
+        private void OnDisable()
         {
-            _button.onClick.RemoveAllListeners();
+            _button.onClick.RemoveListener(ActivateEffect);
+        }
+        
+        private void ActivateEffect()
+        {
+            onEffectActivated.Invoke(effect);
         }
     }
 }

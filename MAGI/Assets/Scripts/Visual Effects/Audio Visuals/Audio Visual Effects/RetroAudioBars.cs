@@ -31,15 +31,23 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
 
         private float[] _previousAmplitudes;
 
-        public override void InitializeEffect()
+        private void Start()
         {
             _startPosition = transform.position;
+            
             CreateBars();
-            _shouldStartGrowing = false; // Initialize to false
+            
+            // start with the bars disabled
+            foreach (var bar in _gameObjects)
+            {
+                bar.SetActive(false);
+            }
+            
+            _shouldStartGrowing = false; 
             _previousAmplitudes = new float[numberOfBars];
         }
 
-        public override void ApplyEffect()
+        protected override void UpdateEffect()
         {
             if (_shouldStartGrowing)
             {
@@ -47,11 +55,33 @@ namespace Visual_Effects.Audio_Visuals.Audio_Visual_Effects
             }
         }
 
+        public override void DisableEffect()
+        {
+            gameObject.SetActive(false);
+            
+            // temporarily disable the bars
+            foreach (var bar in _gameObjects)
+            {
+                bar.SetActive(false);
+            }
+        }
+
+        public override void EnableEffect()
+        {
+            gameObject.SetActive(true);
+            
+            // re-enable the bars
+            foreach (var bar in _gameObjects)
+            {
+                bar.SetActive(true);
+            }
+        }
+
         private void CreateBars()
         {
             for (var i = 0; i < numberOfBars; i++)
             {
-                var spawnPosition = new Vector3(_startPosition.x + (i * spacing), _startPosition.y + minimalScaleBack / 2, _startPosition.z); // Set the Y position to minimalScaleBack here
+                var spawnPosition = new Vector3(_startPosition.x + (i * spacing), _startPosition.y + minimalScaleBack / 2, _startPosition.z); 
                 var newBar = Instantiate(barPrefab, spawnPosition, Quaternion.identity);
                 _gameObjects.Add(newBar);
             }

@@ -1,34 +1,52 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Visual_Effects.Audio_Visuals
 {
     public class AudioVisualsManager: MonoBehaviour
     {
-        [Header("General Settings")]
+        [Header("Starting effect")]
         [SerializeField] private AudioVisualEffect defaultEffect;
         
-        [Header("Debugging View")]
+        [Header("What are all my effects?")]
+        [SerializeField] private List<AudioVisualEffect> effects;
+
+        [Header("Debugging")] 
         [SerializeField] private AudioVisualEffect activeEffect;
-        
-        /// <summary>
-        ///  The currently active effect.
-        /// </summary>
+
         public AudioVisualEffect ActiveEffect
         {
-            get => activeEffect;
-            set => activeEffect = value;
+            set
+            {
+                activeEffect = value;
+                ActivateEffect(activeEffect);
+            }
         }
-
+        
         private void Start()
         {
-            activeEffect = defaultEffect;
-            activeEffect.InitializeEffect();
+            // enable the default effect
+            ActiveEffect = defaultEffect;
+            
+            // Disable all effects except the default one
+            foreach (var effect in effects)
+            {
+                if (effect == defaultEffect) continue;
+                effect.DisableEffect();
+            }
         }
-
-        private void FixedUpdate()
+        
+        /// <summary>
+        ///  Activates the given effect and deactivates all other effects.
+        /// </summary>
+        /// <param name="effect"> the effect to activate </param>
+        private void ActivateEffect(AudioVisualEffect effect)
         {
-            ActiveEffect.ApplyEffect();
+            foreach (var e in effects)
+            {
+                if (e == effect) e.EnableEffect();
+                else e.DisableEffect();
+            }
         }
     }
 }

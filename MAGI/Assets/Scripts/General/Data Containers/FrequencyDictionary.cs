@@ -9,18 +9,17 @@ namespace General.Data_Containers
     {
         private const float TwelfthRootOfTwo = 1.059463094359f;
 
-        [Header("Frequency Settings")] [SerializeField]
-        private int numKeys = 88;
-
+        [Header("Frequency Settings")]
+        [SerializeField] private int numKeys = 88;
         [SerializeField] private float baseFrequency = 440.0f;
         [SerializeField] private int baseKeyNumber = 49;
 
-        [Header("Note settings")] [SerializeField]
-        private Notes baseNote = Notes.A;
-
+        [Header("Note settings")] 
+        [SerializeField] private Notes baseNote = Notes.A;
         [SerializeField] private int baseOctave = 4;
 
         private Dictionary<float, string> _frequencies;
+        private int _currentOctave;
 
         private void OnEnable()
         {
@@ -91,22 +90,22 @@ namespace General.Data_Containers
         {
             // calculate the first note index based on the baseNote and the baseKeyNumber
             var noteValue = (int) baseNote + keyNumber - baseKeyNumber;
-            var octaveValue = baseOctave;
+            _currentOctave = baseOctave;
 
             // ensure when the note is higher than B that the enum starts from A again
             while (noteValue > (int) Notes.B)
             {
                 noteValue -= (int) Notes.B;
-                octaveValue++;
+                _currentOctave++;
             }
 
             while (noteValue < (int) Notes.C)
             {
                 noteValue += (int) Notes.B;
-                octaveValue--;
+                _currentOctave--;
             }
 
-            return $"{((Notes) noteValue).ToFormattedString()}{octaveValue}";
+            return $@"{((Notes) noteValue).ToFormattedString()}{_currentOctave}";
         }
 
         /// <summary>

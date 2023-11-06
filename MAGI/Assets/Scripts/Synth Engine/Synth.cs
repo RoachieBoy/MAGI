@@ -20,6 +20,7 @@ namespace Synth_Engine
 
         private float _frequency;
         private int _frequencyIndex;
+        private int _currentPressedKeyIndex;
 
         #region Serialized Fields
         
@@ -134,12 +135,14 @@ namespace Synth_Engine
         {
             // Move base index twelve semitones
             _frequencyIndex += amount;
-
-            // update immediately to the new frequency
-            Frequency = frequencyDictionary.Keys.ElementAt(_frequencyIndex);
-
+            
             // remap the keys to the new frequencies
             MapKeyToFrequencies();
+
+            // update immediately to the new frequency
+            Frequency = frequencyDictionary.Keys.ElementAt(_frequencyIndex + _currentPressedKeyIndex);
+            
+            Note = frequencyDictionary[Frequency];
         }
 
         /// <summary>
@@ -254,10 +257,14 @@ namespace Synth_Engine
 
                 var note = frequencyDictionary[frequency];
 
+                var index = i;
+                
                 action.started += _ =>
                 {
                     Frequency = frequency;
                     Note = note;
+                    // get the index of the pressed key
+                    _currentPressedKeyIndex = index; 
                 };
             }
         }

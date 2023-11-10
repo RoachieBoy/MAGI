@@ -5,7 +5,5 @@ using UnityEngine.Events;
 namespace Utilities.Custom_Event_Types
 {
     [Serializable]
-    public class AudioMixerGroupUnityEvent : UnityEvent<AudioMixerGroup>
-    {
-    }
+    public class AudioMixerGroupUnityEvent : UnityEvent<AudioMixerGroup> {}
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5993985855459994544
+--- !u!1 &173320679632563602
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 417688690543536842}
-  - component: {fileID: 1067960115327739728}
-  - component: {fileID: 6240121733252345924}
-  - component: {fileID: 4485117677031176691}
-  - component: {fileID: 553022846220622520}
+  - component: {fileID: 4886696148358458391}
+  - component: {fileID: 3199422728088493286}
+  - component: {fileID: 5899166750970551967}
+  - component: {fileID: 4578743396218551399}
+  - component: {fileID: 3484998432807080686}
   m_Layer: 0
-  m_Name: Synth
+  m_Name: Synthesizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &417688690543536842
+--- !u!4 &4886696148358458391
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993985855459994544}
+  m_GameObject: {fileID: 173320679632563602}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1067960115327739728
+--- !u!82 &3199422728088493286
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993985855459994544}
+  m_GameObject: {fileID: 173320679632563602}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ca602845d4f499345a7b805473e8bce2, type: 2}
@@ -49,7 +49,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -131,36 +131,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6240121733252345924
+--- !u!114 &5899166750970551967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993985855459994544}
+  m_GameObject: {fileID: 173320679632563602}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fc3182b028a4bbfbba935d0a5ba466e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 0.426
-  frequencyTable: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
+  onNoteChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  amplitude: 0.709
+  defaultSynth: {fileID: 11400000, guid: b890bb741f5ad9649933109a5fe37274, type: 2}
+  frequencyDictionary: {fileID: 11400000, guid: f68a93fd77b974dd8990c8f8f5612c60, type: 2}
   pianoKeyTable: {fileID: 11400000, guid: d0e918a0cfd6c6742ad4750c40f27821, type: 2}
+  attackTime: 0.9
   activeSynthDebug: {fileID: 0}
   isPlaying: 0
-  inputActionMap:
-    m_Name: Input
-    m_Id: 6bac8f67-da70-4533-a01b-3181d4770c81
+  pianoKeyMap:
+    m_Name: Piano Key Map
+    m_Id: ddff9acd-ab35-4f8e-a069-35a2d90a62ce
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
---- !u!114 &4485117677031176691
+--- !u!114 &4578743396218551399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993985855459994544}
+  m_GameObject: {fileID: 173320679632563602}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 422f83e3582d4117be0b06b28bbb7904, type: 3}
@@ -170,7 +175,7 @@ MonoBehaviour:
   isPlaying:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6240121733252345924}
+      - m_Target: {fileID: 5899166750970551967}
         m_TargetAssemblyTypeName: Synth_Engine.Synth, Assembly-CSharp
         m_MethodName: set_IsPlaying
         m_Mode: 0
@@ -189,18 +194,18 @@ MonoBehaviour:
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
---- !u!114 &553022846220622520
+--- !u!114 &3484998432807080686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993985855459994544}
+  m_GameObject: {fileID: 173320679632563602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92712958204844c2b5a01406bdb141ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a5e44a4b1f04182aa0a9a517938d8dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fftWindow: 4
-  spectrumSize: 64
-  effectMultiplier: 135
+  smoothDownRate: 7
+  scalar: 6
+  fftWindow: 5

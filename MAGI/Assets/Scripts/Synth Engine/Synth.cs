@@ -39,17 +39,17 @@ namespace Synth_Engine
 
         [Header("ADSR Values (envelope)")] 
         [SerializeField] private float attackTime = 0.9f;
-
+        
         [Header("Debug View")] 
         [SerializeField] private SynthModule activeSynthDebug;
         [SerializeField] private bool isPlaying;
-        [SerializeField] private InputActionMap inputActionMap = new();
+        [SerializeField] private InputActionMap pianoKeyMap = new();
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        ///     The active synth module
+        ///     The active synth module that is selected 
         /// </summary>
         public SynthModule ActiveSynth
         {
@@ -73,7 +73,7 @@ namespace Synth_Engine
         /// </summary>
         public AudioMixerGroup ActiveEffect
         {
-            set => GetComponent<AudioSource>().outputAudioMixerGroup = value;
+            set => gameObject.GetComponent<AudioSource>().outputAudioMixerGroup = value;
         }
 
         /// <summary>
@@ -85,6 +85,9 @@ namespace Synth_Engine
             set => isPlaying = value;
         }
 
+        /// <summary>
+        ///  Represents the currently playing frequency of the synthesizer 
+        /// </summary>
         private float Frequency
         {
             get => _frequency;
@@ -128,9 +131,9 @@ namespace Synth_Engine
         #region Note Behaviour
         
         /// <summary>
-        ///   Shifts the octave by the given amount.
+        ///   Shifts the octave by moving the frequency index a given amount 
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount"> what amount should I shift the frequency index </param>
         private void ShiftOctave(int amount)
         {
             // Move base index twelve semitones
@@ -174,7 +177,7 @@ namespace Synth_Engine
 
         private void Start()
         {
-            // ensure that the frequency index is set to the base note of the software piano
+            // ensure that the frequency index is set to the base note of the software piano to start 
             _frequencyIndex = (int) (frequencyDictionary.BaseKeyNumber - frequencyDictionary.BaseNote);
 
             CreateInputActionMap();
@@ -182,25 +185,22 @@ namespace Synth_Engine
             MapOctaveKeys();
 
             AudioBufferManager.InitializePreloadBuffers(frequencyDictionary);
-
-            // Set the default synth
+            
             ActiveSynth = defaultSynth;
         }
 
         private void OnDisable()
         {
-            inputActionMap?.Disable();
+            pianoKeyMap?.Disable();
             _octaveShiftUpActionMap?.Disable();
             _octaveShiftDownActionMap?.Disable();
         }
 
         private void OnAudioFilterRead(float[] data, int channels)
         {
-            if (!IsPlaying)
-                return;
+            if (!IsPlaying) return;
 
-            if (channels != 2)
-                return;
+            if (channels != 2) return;
 
             // Generate samples for the given data array, channels, frequency, and amplitude
             AudioBufferManager.GetAudioBuffer(data);
@@ -237,24 +237,21 @@ namespace Synth_Engine
         private void CreateInputActionMap()
         {
             foreach (var key in pianoKeyTable)
-                InputActionMapsHelper.CreateInputActionMapStandard(inputActionMap, key.ToString().ToLower());
+                InputActionMapsHelper.CreateInputActionMapStandard(pianoKeyMap, key.ToString().ToLower());
 
-            inputActionMap.Enable();
+            pianoKeyMap.Enable();
         }
 
         /// <summary>
         ///     Maps piano keys to corresponding frequencies and input actions
+        ///     Also responsible for setting correct note and frequency 
         /// </summary>
         private void MapKeyToFrequencies()
         {
             for (var i = 0; i < pianoKeyTable.Count; i++)
             {
-                // Get the action for the key
-                var action = inputActionMap.FindAction(pianoKeyTable[i].ToString());
-
-                // Get the frequency of the key 
+                var action = pianoKeyMap.FindAction(pianoKeyTable[i].ToString());
                 var frequency = frequencyDictionary.Keys.ElementAt(i + _frequencyIndex);
-
                 var note = frequencyDictionary[frequency];
 
                 var index = i;
@@ -263,12 +260,10 @@ namespace Synth_Engine
                 {
                     Frequency = frequency;
                     Note = note;
-                    // get the index of the pressed key
                     _currentPressedKeyIndex = index; 
                 };
             }
         }
-
         #endregion
     }
 }

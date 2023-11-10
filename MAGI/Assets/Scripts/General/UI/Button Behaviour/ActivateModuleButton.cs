@@ -30,8 +30,8 @@ namespace General.UI.Button_Behaviour
 
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
-            _button = GetComponent<Button>();
+            _audioSource = gameObject.GetComponent<AudioSource>();
+            _button = gameObject.GetComponent<Button>();
 
             _button.onClick.AddListener(() =>
             {
